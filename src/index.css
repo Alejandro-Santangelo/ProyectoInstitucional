@@ -1,0 +1,1292 @@
+/* Reset y variables CSS */
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #0dcaf0;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  
+  /* Responsive spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 3rem;
+  
+  /* Typography */
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-size-base: 1rem;
+  --line-height-base: 1.5;
+}
+
+/* Reset básico */
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  background: linear-gradient(to top, #002868 0%, #87CEEB 100%);
+  min-height: 100vh;
+  color: var(--dark-color);
+  overflow-x: hidden;
+}
+
+/* Responsive typography */
+h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+}
+
+h5 {
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Card enhancements */
+
+.auth-page .card {
+  border: 2px solid rgba(255,255,255,0.45) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.22) !important;
+  background: rgba(255,255,255,0.06) !important;
+  backdrop-filter: blur(38px) saturate(250%) !important;
+  -webkit-backdrop-filter: blur(38px) saturate(250%) !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+  color: white;
+  border-radius: 15px 15px 0 0 !important;
+  border: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.card-body {
+  padding: var(--spacing-lg);
+}
+
+/* Responsive buttons */
+.btn {
+  border-radius: 25px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+  border: none;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success-color), #20c997);
+  border: none;
+}
+
+/* Form enhancements */
+.form-control {
+  border-radius: 10px;
+  border: 2px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  background: white;
+}
+
+.form-control.is-invalid {
+  border-color: var(--danger-color);
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Alert enhancements */
+.alert {
+  border-radius: 15px;
+  border: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+  animation: slideInDown 0.5s ease;
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.alert-success {
+  background: linear-gradient(135deg, var(--success-color), #20c997);
+  color: white;
+}
+
+.alert-light {
+  background: rgba(248, 249, 250, 0.9);
+  backdrop-filter: blur(5px);
+}
+
+/* Navbar institucional */
+.navbar {
+  background: white !important;
+  border-bottom: 2px solid #e9ecef;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 0;
+  min-height: 120px;
+}
+
+/* Navbar institucional */
+.navbar {
+  background: linear-gradient(to bottom, #87CEEB 0%, #002868 100%) !important;
+  border-bottom: 2px solid #e9ecef;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 0;
+  min-height: 120px;
+  width: 100vw;
+  margin: 0 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.container-fluid {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 100%;
+  margin: 0;
+}
+
+.p-0 {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Logo Sede Regional */
+.logo-sede-regional {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.escudo-sede {
+  margin-right: 0.75rem;
+  background: #e9ecef;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.houssay-logo-img {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+  background: transparent;
+  border-radius: 6px;
+}
+
+.texto-sede {
+  font-size: 16px;
+  line-height: 1.2;
+  color: white;
+}
+
+.sede-line1 {
+  font-weight: normal;
+  font-size: 16px;
+  color: white;
+}
+
+.sede-line2 {
+  font-weight: normal;
+  font-size: 16px;
+  color: white;
+}
+
+.sede-line3 {
+  font-weight: bold;
+  margin-top: 3px;
+  font-size: 18px;
+  color: white;
+}
+
+/* Logo UPC Centro */
+.navbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-upc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upc-logo {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  background: #e9ecef;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.upc-logo-img {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+  background: transparent;
+  border-radius: 6px;
+}
+
+.upc-text {
+  text-align: left;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+.upc-line1 {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.1;
+  margin-bottom: 2px;
+  color: white;
+}
+
+.upc-line2 {
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1.1;
+  margin-bottom: 2px;
+  color: white;
+}
+
+.upc-line3 {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.1;
+  color: white;
+}
+
+/* Logo Gobierno de Córdoba Completo */
+.logo-cordoba-completo {
+  display: flex;
+  align-items: center;
+  background: #e9ecef;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.cordoba-completo-img {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+  background: transparent;
+  border-radius: 6px;
+}
+
+/* Mover el contenedor de Córdoba hacia la izquierda */
+.navbar-end {
+  padding-right: 2rem;
+}
+
+/* Título principal */
+.titulo-principal {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  color: white;
+  text-shadow: 
+    2px 2px 0px #666,
+    4px 4px 0px #555,
+    6px 6px 0px #444,
+    8px 8px 0px #333,
+    10px 10px 0px #222,
+    12px 12px 15px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+  letter-spacing: 2px;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  width: calc(100% - 40px);
+  display: block;
+  margin-top: 120px;
+  margin-left: 9.5%;
+  margin-right: 2.5%;
+  padding-right: 20px;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+/* Botón Ingresar */
+.boton-ingresar {
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+  border: none;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 15px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin-top: 40px;
+  margin-left: 55%;
+  margin-right: auto;
+  transform: translateX(-50%);
+  width: fit-content;
+}
+
+.boton-ingresar:hover {
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.2),
+    0 8px 25px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: white;
+}
+
+.boton-ingresar:active {
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.15),
+    0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive para botón */
+@media (max-width: 768px) {
+  .boton-ingresar {
+    font-size: 1.2rem;
+    padding: 12px 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .boton-ingresar {
+    font-size: 1rem;
+    padding: 10px 25px;
+  }
+}
+@media (max-width: 768px) {
+  .titulo-principal {
+    font-size: clamp(2rem, 6vw, 4rem);
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 576px) {
+  .titulo-principal {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    letter-spacing: 0.5px;
+  }
+}
+@media (max-width: 991.98px) {
+  .container-fluid {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .navbar-brand,
+  .navbar-center,
+  .navbar-end {
+    width: auto !important;
+    margin-bottom: 0;
+    justify-content: center !important;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .logo-sede-regional,
+  .logo-upc,
+  .logo-cordoba-completo {
+    transform: scale(0.7);
+    min-width: 0;
+    margin: 0 0.2rem;
+  }
+  .navbar {
+    min-height: 60px;
+    padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .houssay-logo-img,
+  .upc-logo-img,
+  .cordoba-completo-img {
+    height: 70px;
+  }
+  
+  .texto-sede {
+    font-size: 14px;
+  }
+  
+  .sede-line1, .sede-line2 {
+    font-size: 14px;
+  }
+  
+  .sede-line3 {
+    font-size: 16px;
+  }
+  
+  .upc-line1, .upc-line3 {
+    font-size: 16px;
+  }
+  
+  .upc-line2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .houssay-logo-img,
+  .upc-logo-img,
+  .cordoba-completo-img {
+    height: 60px;
+  }
+  
+  .texto-sede {
+    font-size: 12px;
+  }
+  
+  .sede-line1, .sede-line2, .sede-line3 {
+    font-size: 12px;
+  }
+  
+  .upc-line1, .upc-line3 {
+    font-size: 14px;
+  }
+  
+  .upc-line2 {
+    font-size: 16px;
+  }
+  
+  .container-fluid {
+    padding: 0.5rem;
+  }
+}
+
+
+
+/* Counter display */
+.display-4 {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: var(--spacing-sm);
+  }
+  
+  .card-body {
+    padding: var(--spacing-md);
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --font-size-base: 0.9rem;
+  }
+  
+  .card {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .display-4 {
+    font-size: 2rem !important;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Loading states */
+.loading {
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles for accessibility */
+.btn:focus,
+.form-control:focus {
+  outline: 3px solid rgba(13, 110, 253, 0.5);
+  outline-offset: 2px;
+}
+
+/* ===== ESTILOS PÁGINA DE AUTENTICACIÓN ===== */
+
+/* Navbar más compacto para página de auth */
+.auth-page .navbar {
+  min-height: 50px;
+  padding: 0.3rem 0;
+}
+
+.auth-page .navbar .logo-sede-regional,
+.auth-page .navbar .logo-upc,
+.auth-page .navbar .logo-cordoba-completo {
+  transform: scale(0.7);
+}
+
+/* Título secundario para la página de auth */
+.titulo-secundario {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: white;
+  text-shadow: 
+    2px 2px 0px #666,
+    4px 4px 0px #555,
+    6px 6px 0px #444,
+    8px 8px 0px #333,
+    10px 10px 0px #222,
+    12px 12px 15px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+  letter-spacing: 1px;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Subtítulo */
+.subtitulo {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-top: 5px;
+}
+
+/* Card de formularios */
+.formulario-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.15),
+    0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.formulario-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Header de formularios */
+.formulario-header {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  color: white;
+  text-align: center;
+  padding: 8px;
+  border: none;
+}
+
+.formulario-titulo {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Clase para mover el formulario de registro hacia la derecha */
+.formulario-registro {
+  transform: translateX(20rem);
+}
+
+@media (max-width: 992px) {
+  .formulario-registro {
+    transform: translateX(0);
+  }
+}
+
+/* Inputs del formulario */
+.form-input {
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.form-input:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 15px rgba(0, 86, 179, 0.2);
+  background: white;
+}
+
+/* Inputs de edición en la planilla de alumnos */
+.dashboard-page .table td .form-control {
+  min-width: 120px;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.85);
+  border: 2px solid #007bff;
+  color: #222;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+}
+.dashboard-page .table td .form-control:focus {
+  background: #fff;
+  border-color: #0056b3;
+  outline: none;
+  box-shadow: 0 0 0 2px #80bdff;
+}
+
+/* Labels del formulario */
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 2px;
+  font-size: 0.8rem;
+}
+
+/* Checkbox personalizado */
+.form-check {
+  color: #495057;
+}
+
+.form-check-input:checked {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Botón principal (para formularios) */
+.boton-principal {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 15px rgba(0, 86, 179, 0.3),
+    0 2px 8px rgba(0, 86, 179, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.boton-principal:hover {
+  background: linear-gradient(135deg, #004085, #003366);
+  box-shadow: 
+    0 12px 35px rgba(0, 86, 179, 0.4),
+    0 8px 25px rgba(0, 86, 179, 0.3);
+  color: white;
+}
+
+/* Botón secundario */
+.boton-secundario {
+  display: inline-block;
+  background: linear-gradient(135deg, #6c757d, #495057);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 10px 25px;
+  border-radius: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 6px 20px rgba(108, 117, 125, 0.3),
+    0 3px 10px rgba(108, 117, 125, 0.2);
+  margin-left: 20rem;
+  position: relative;
+  top: -8rem;
+}
+
+.boton-secundario:hover {
+  background: linear-gradient(135deg, #495057, #343a40);
+  box-shadow: 
+    0 8px 25px rgba(108, 117, 125, 0.4),
+    0 6px 20px rgba(108, 117, 125, 0.3);
+  color: white;
+  text-decoration: none;
+}
+
+/* Link secundario */
+.link-secundario {
+  color: #0056b3;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link-secundario:hover {
+  color: #004085;
+  text-decoration: underline;
+}
+
+/* Responsive para página de auth */
+@media (max-width: 992px) {
+  .formulario-card {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .titulo-secundario {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  
+  .subtitulo {
+    font-size: 1.1rem;
+  }
+  
+  .formulario-titulo {
+    font-size: 1.3rem;
+  }
+  
+  .boton-principal {
+    font-size: 1.1rem;
+    padding: 10px 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .titulo-secundario {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+  
+  .subtitulo {
+    font-size: 1rem;
+  }
+  
+  .formulario-titulo {
+    font-size: 1.2rem;
+  }
+}
+
+/* Botón de año en dashboard profesor */
+.dashboard-page .btn-anio {
+  min-width: 120px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #007bff 60%, #00c6ff 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0,123,255,0.12);
+  transition: all 0.2s;
+}
+.dashboard-page .btn-anio:hover, .dashboard-page .btn-anio.active {
+  background: linear-gradient(135deg, #0056b3 60%, #00c6ff 100%);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,123,255,0.18);
+}
+
+/* Botones de acción en la planilla de alumnos */
+.dashboard-page .table td .btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  min-width: 32px;
+}
+
+/* Apilar botones de acción y aumentar espacio vertical */
+.dashboard-page .table td .btn-sm {
+  display: block;
+  width: 80px;
+  margin: 0.2rem auto;
+}
+.dashboard-page .table td .btn-danger.btn-sm {
+  margin-top: 0.4rem;
+}
+
+.dashboard-page .table td .btn-danger.btn-sm {
+  margin-left: 0.25rem;
+}
+
+/* Margen superior para el botón Volver en la planilla de alumnos */
+.dashboard-page .btn-volver {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .houssay-logo-img,
+  .upc-logo-img,
+  .cordoba-completo-img {
+    height: 45px !important;
+  }
+  .texto-sede,
+  .upc-text {
+    font-size: 12px !important;
+  }
+  .sede-line1, .sede-line2, .sede-line3,
+  .upc-line1, .upc-line2, .upc-line3 {
+    font-size: 12px !important;
+  }
+  .logo-sede-regional,
+  .logo-upc,
+  .logo-cordoba-completo {
+    transform: scale(0.55);
+    margin: 0 0.1rem;
+  }
+}
+
+/* Estilos adicionales para la página de dashboard */
+.dashboard-page {
+  background: #f8f9fa;
+  padding: var(--spacing-lg) 0;
+}
+
+.dashboard-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.dashboard-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.dashboard-page .btn-limpiar-busqueda {
+  background: #e9ecef;
+  color: #495057;
+  border: 1px solid #ced4da;
+}
+
+.dashboard-page .btn-limpiar-busqueda:hover {
+  background: #dee2e6;
+  color: #212529;
+}
+
+/* Tabla de datos */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #495057;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+  background-color: #f1f3f5;
+  font-weight: 600;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.table .btn {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.9rem;
+  border-radius: 10px;
+}
+
+/* Estilos para el calendario */
+.fc {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+.fc-toolbar {
+  background: #f1f3f5;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.fc-button {
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.fc-button:hover {
+  background: linear-gradient(135deg, #0056b3, #00aaff);
+}
+
+.fc-daygrid-day {
+  padding: 0.5rem;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.fc-daygrid-day:hover {
+  background: rgba(0, 123, 255, 0.1);
+}
+
+/* Estilos para el perfil de usuario */
+.profile-page {
+  background: #f8f9fa;
+  padding: var(--spacing-lg) 0;
+}
+
+.profile-page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.profile-page .btn {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.profile-page .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para la configuración de la cuenta */
+.settings-page {
+  background: #f8f9fa;
+  padding: var(--spacing-lg) 0;
+}
+
+.settings-page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.settings-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.settings-page .form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.settings-page .form-control {
+  border-radius: 10px;
+  border: 2px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.settings-page .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  background: white;
+}
+
+.settings-page .btn {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.settings-page .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para las notificaciones */
+.notifications-page {
+  background: #f8f9fa;
+  padding: var(--spacing-lg) 0;
+}
+
+.notifications-page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.notifications-page .notification {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.notifications-page .notification:last-child {
+  border-bottom: none;
+}
+
+.notifications-page .notification:hover {
+  background: rgba(0, 123, 255, 0.1);
+}
+
+/* Estilos para el chat */
+.chat-page {
+  background: #f8f9fa;
+  padding: var(--spacing-lg) 0;
+}
+
+.chat-page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.chat-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.chat-page .message {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.chat-page .message.sent {
+  background: #e1f5fe;
+  text-align: right;
+}
+
+.chat-page .message.received {
+  background: #f1f3f5;
+  text-align: left;
+}
+
+/* Estilos para el formulario de contacto */
+.contact-page {
+  background: #f8f9fa;
+  padding: var(--spacing-lg) 0;
+}
+
+.contact-page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contact-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.contact-page .form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.contact-page .form-control {
+  border-radius: 10px;
+  border: 2px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.contact-page .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  background: white;
+}
+
+.contact-page .btn {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.contact-page .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el mapa */
+.map-page {
+  background: #f8f9fa;
+  padding: var(--spacing-lg) 0;
+}
+
+.map-page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.map-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.map-page .btn {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.map-page .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón Cerrar sesión */
+.dashboard-page .btn-cerrar-sesion {
+  background: #e9ecef;
+  color: #495057;
+  border: 1px solid #ced4da;
+  margin-left: 0;
+}
+.dashboard-page .btn-cerrar-sesion:hover {
+  background: #dee2e6;
+  color: #212529;
+}

@@ -35,14 +35,14 @@ function AuthPage() {
             <Row className="justify-content-start g-3">
               {/* Formulario de Login */}
               <Col xs={12} md={6} lg={6} className="mb-4">
-                <Card className="formulario-card h-100">
+                <Card className="formulario-card h-100" style={{background: 'linear-gradient(135deg, #e0e0e0 60%, #f5f5f5 100%)', backdropFilter: 'blur(6px)'}}>
                   <Card.Header className="formulario-header">
-                    <h3 className="formulario-titulo">Iniciar Sesión</h3>
+                    <h3 className="formulario-titulo">Inicio de Sesión</h3>
                   </Card.Header>
                   
                   <Card.Body className="p-2">
-                    <Form onSubmit={handleSubmitLogin}>
-                      <Form.Group className="mb-1">
+                    <Form onSubmit={handleSubmitLogin} style={{marginTop: '28px'}}>
+                      <Form.Group className="mb-4">
                         <Form.Label>Usuario o Email</Form.Label>
                         <Form.Control 
                           type="text" 
@@ -51,8 +51,8 @@ function AuthPage() {
                           required
                         />
                       </Form.Group>
-                      
-                      <Form.Group className="mb-1">
+
+                      <Form.Group className="mb-4">
                         <Form.Label>Contraseña</Form.Label>
                         <Form.Control 
                           type="password" 
@@ -61,8 +61,8 @@ function AuthPage() {
                           required
                         />
                       </Form.Group>
-                      
-                      <div className="d-flex justify-content-between align-items-center mb-2">
+
+                      <div className="d-flex justify-content-between align-items-center mb-5">
                         <Form.Check 
                           type="checkbox" 
                           label="Recordarme" 
@@ -70,10 +70,11 @@ function AuthPage() {
                         />
                         <a href="#" className="link-secundario">¿Olvidaste tu contraseña?</a>
                       </div>
-                      
+
                       <Button 
                         type="submit" 
                         className="boton-principal w-100"
+                        style={{marginTop: '18px'}}
                       >
                         Iniciar Sesión
                       </Button>
@@ -84,9 +85,9 @@ function AuthPage() {
 
               {/* Formulario de Registro */}
               <Col xs={12} md={6} lg={6} className="mb-4 formulario-registro">
-                <Card className="formulario-card h-100">
+                <Card className="formulario-card h-100" style={{background: 'linear-gradient(135deg, #e0e0e0 60%, #f5f5f5 100%)', backdropFilter: 'blur(6px)'}}>
                   <Card.Header className="formulario-header">
-                    <h3 className="formulario-titulo">Registrarse</h3>
+                    <h3 className="formulario-titulo">Registro</h3>
                   </Card.Header>
                   
                   <Card.Body className="p-2">
@@ -136,28 +137,24 @@ function AuthPage() {
                         />
                       </Form.Group>
                       
-                      <Row>
-                        <Col md={6}>
-                          <Form.Group className="mb-1">
-                            <Form.Label>Contraseña</Form.Label>
-                            <Form.Control 
-                              type="password" 
-                              placeholder="Ingrese su contraseña"
-                              className="form-input"
-                              required
-                            />
-                          </Form.Group>
+                      <Row className="align-items-end mb-1">
+                        <Col md={6} className="d-flex flex-column">
+                          <Form.Label>Contraseña</Form.Label>
+                          <Form.Control 
+                            type="password" 
+                            placeholder="Ingrese su contraseña"
+                            className="form-input"
+                            required
+                          />
                         </Col>
-                        <Col md={6}>
-                          <Form.Group className="mb-1">
-                            <Form.Label>Confirmar Contraseña</Form.Label>
-                            <Form.Control 
-                              type="password" 
-                              placeholder="Confirme su contraseña"
-                              className="form-input"
-                              required
-                            />
-                          </Form.Group>
+                        <Col md={6} className="d-flex flex-column">
+                          <Form.Label>Confirmar Contraseña</Form.Label>
+                          <Form.Control 
+                            type="password" 
+                            placeholder="Confirme su contraseña"
+                            className="form-input"
+                            required
+                          />
                         </Col>
                       </Row>
                       

@@ -91,7 +91,7 @@ const PlanillaAlumnos: React.FC = () => {
         </Row>
         <Row>
           <Col md={12}>
-            <Card className="card">
+            <Card className="card" style={{background: 'linear-gradient(135deg, #e0e0e0 60%, #f5f5f5 100%)', backdropFilter: 'blur(6px)'}}>
               <Card.Body>
                 <div className="mb-3 d-flex align-items-center gap-2">
                   <Button variant="info" onClick={() => setShowSearch(s => !s)}>

@@ -1,3 +1,64 @@
+/* Responsividad global para dispositivos móviles */
+@media (max-width: 768px) {
+  .auth-page .card {
+    width: 98vw !important;
+    min-width: unset !important;
+    margin: 0 auto !important;
+    border-radius: 16px !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12) !important;
+  }
+  .formulario-header.card-header {
+    font-size: 1.1rem !important;
+    padding: 0.7rem 1rem !important;
+  }
+  .form-label, label {
+    font-size: 1rem !important;
+    letter-spacing: 0.12em !important;
+  }
+  .form-control {
+    font-size: 1rem !important;
+    padding: 0.5rem 0.8rem !important;
+  }
+  .boton-principal, .boton-secundario, .btn {
+    font-size: 1rem !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px !important;
+  }
+  .dashboard-page .card {
+    width: 98vw !important;
+    min-width: unset !important;
+    margin: 0 auto !important;
+    border-radius: 16px !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12) !important;
+  }
+  .table {
+    font-size: 0.95rem !important;
+    min-width: 600px !important;
+    overflow-x: auto !important;
+  }
+  .navbar {
+    flex-wrap: wrap !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem 1rem !important;
+    gap: 2.2rem !important;
+    row-gap: 0.7rem !important;
+  }
+  .navbar-brand, .navbar-text {
+    font-size: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    max-width: 32vw !important;
+    min-width: 80px !important;
+    word-break: break-word !important;
+    text-align: center !important;
+  }
+}
+.boton-ingresar {
+  font-weight: bold !important;
+}
 /* Reset y variables CSS */
 :root {
   --primary-color: #0d6efd;
@@ -72,9 +133,9 @@ h5 {
   border: 2px solid rgba(255,255,255,0.45) !important;
   border-radius: 20px !important;
   box-shadow: 0 12px 40px rgba(0,0,0,0.22) !important;
-  background: rgba(255,255,255,0.06) !important;
-  backdrop-filter: blur(38px) saturate(250%) !important;
-  -webkit-backdrop-filter: blur(38px) saturate(250%) !important;
+  background: linear-gradient(135deg, rgba(224,224,224,0.45) 60%, rgba(245,245,245,0.32) 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 
 .card:hover {
@@ -83,8 +144,8 @@ h5 {
 }
 
 .card-header {
-  background: linear-gradient(135deg, var(--primary-color), var(--info-color));
-  color: white;
+  background: linear-gradient(135deg, #bdbdbd 0%, #e0e0e0 100%) !important;
+  color: #222 !important;
   border-radius: 15px 15px 0 0 !important;
   border: none;
   padding: var(--spacing-md) var(--spacing-lg);
@@ -141,6 +202,12 @@ h5 {
   font-weight: 600;
   color: var(--dark-color);
   margin-bottom: 0.5rem;
+  color: #111111 !important;
+}
+label, .form-label, .formulario-card label, .formulario-card .form-label {
+  color: #111111 !important;
+  font-weight: bold !important;
+  letter-spacing: 0.15em !important;
 }
 
 /* Alert enhancements */
@@ -955,7 +1022,7 @@ html {
 
 .dashboard-page .btn-limpiar-busqueda:hover {
   background: #dee2e6;
-  color: #212529;
+  color: #111111 !important;
 }
 
 /* Tabla de datos */

@@ -9,7 +9,7 @@ export type Alumno = {
   nombre: string;
   apellido: string;
   matricula: string;
-  documento: string;
+  dni: string;
   email: string;
   edad: number;
   direccion: string;
@@ -20,7 +20,7 @@ export type Alumno = {
 };
 
 const columnas: (keyof Alumno)[] = [
-  "idAlumno", "nombre", "apellido", "matricula", "documento", "email", "edad", "direccion", "localidad", "telefono", "estado", "observaciones"
+  "idAlumno", "nombre", "apellido", "matricula", "dni", "email", "edad", "direccion", "localidad", "telefono", "estado", "observaciones"
 ];
 
 const PlanillaAlumnos: React.FC = () => {

@@ -1,0 +1,53 @@
+INFORME DE DISEÑO Y FUNCIONALIDAD DEL FRONTEND
+
+Proyecto Institucional - Gestión Web
+
+1. Tipografía Utilizada
+---------------------------------
+La tipografía principal utilizada en el frontend es 'Segoe UI', Tahoma, Geneva, Verdana y Arial, seleccionada por su legibilidad y aspecto moderno. Se emplea en títulos, textos, formularios y botones, asegurando coherencia visual y accesibilidad.
+
+2. Paleta de Colores
+---------------------
+- Color primario: #0d6efd (azul institucional)
+- Color secundario: #6c757d (gris)
+- Éxito: #198754 (verde)
+- Peligro: #dc3545 (rojo)
+- Advertencia: #ffc107 (amarillo)
+- Info: #0dcaf0 (celeste)
+- Fondo claro: #f8f9fa
+- Fondo oscuro: #212529
+- Gradientes: Se utilizan gradientes en el fondo principal y navbar, combinando azul y celeste para dar profundidad y modernidad.
+
+3. Botones y Elementos Visuales
+-------------------------------
+- Botones principales: Bordes redondeados, gradientes, sombra al pasar el mouse, colores institucionales.
+- Botones secundarios: Gris oscuro, bordes redondeados, sombra y transición suave.
+- Botón 'Ingresar': Destacado, grande, centrado, con gradiente y sombra.
+- Formularios: Bordes redondeados, fondo translúcido, sombra y efecto de enfoque.
+- Navbar: Fijo en la parte superior, con logos institucionales alineados y centrados en dispositivos móviles, gradiente de fondo y sombra.
+- Tablas: Bordes suaves, filas resaltadas al pasar el mouse, botones de acción apilados y con espacio.
+- Cards: Bordes redondeados, sombra, fondo translúcido y efecto hover.
+- Alertas: Bordes redondeados, animación de entrada, colores según tipo de mensaje.
+
+4. Funcionalidad y Lógica del Frontend
+--------------------------------------
+- El frontend está desarrollado con React y Vite, utilizando Bootstrap y estilos personalizados para lograr una experiencia moderna y responsiva.
+- Navbar institucional: Muestra los logos de la sede, UPC y Gobierno de Córdoba. En computadoras se distribuyen horizontalmente, en móviles se centran y alinean en una sola fila.
+- Página principal: Presenta el título 'Gestión Institucional' y el botón 'Ingresar', con fondo degradado y elementos centrados.
+- Autenticación: Formulario de login con validación visual, campos accesibles y feedback inmediato. El diseño se adapta a dispositivos móviles.
+- Dashboard: Cards informativas, tablas de datos con edición en línea, botones de acción apilados y destacados. El dashboard es completamente responsivo.
+- Planilla de alumnos: Tabla editable, botones de acción, validación visual y navegación intuitiva.
+- Perfil y configuración: Formularios con campos personalizados, feedback visual, botones grandes y accesibles.
+- Notificaciones y chat: Listado de mensajes, animaciones, colores diferenciados para mensajes enviados y recibidos.
+- Accesibilidad: Contraste adecuado, tipografía legible, animaciones reducidas para usuarios con preferencias especiales.
+- Utilidades responsivas: Media queries para adaptar el diseño a celulares, tablets y escritorio, manteniendo la coherencia visual.
+
+5. Descripción General
+----------------------
+El frontend está diseñado para ser intuitivo, accesible y visualmente atractivo. Cada elemento responde a la interacción del usuario, con transiciones suaves y retroalimentación visual. La lógica de navegación es clara, permitiendo al usuario acceder rápidamente a las funciones principales: autenticación, gestión de alumnos, dashboard, perfil y comunicación interna. El diseño institucional refuerza la identidad visual de la UPC y la sede regional, asegurando profesionalismo y confianza.
+
+Este informe describe el diseño y la lógica del frontend, sin incluir detalles del backend ni de la infraestructura técnica.
+
+---
+
+Elaborado por GitHub Copilot, 2025.

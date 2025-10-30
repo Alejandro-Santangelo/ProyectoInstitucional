@@ -1,0 +1,16 @@
+[
+  {
+    "nombre": "Carlos López",
+    "dni": "11223344",
+    "sector": "Administración",
+    "telefono": "",
+    "mail": ""
+  },
+  {
+    "nombre": "Marta Ruiz",
+    "dni": "44332211",
+    "sector": "Mantenimiento",
+    "telefono": "",
+    "mail": ""
+  }
+]

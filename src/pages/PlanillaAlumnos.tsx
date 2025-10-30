@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import NavbarInstitucional from "../components/NavbarInstitucional";
 import { Container, Row, Col, Card, Table, Button, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
-import { alumnosEjemplo } from "../data/alumnosEjemplo";
 
 export type Alumno = {
   idAlumno: number;
@@ -26,7 +25,7 @@ const columnas: (keyof Alumno)[] = [
 const PlanillaAlumnos: React.FC = () => {
   const { carrera, anio } = useParams();
   const navigate = useNavigate();
-  const [alumnos, setAlumnos] = useState<Alumno[]>(alumnosEjemplo);
+  const [alumnos, setAlumnos] = useState<Alumno[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editData, setEditData] = useState<Alumno | null>(null);
   const [showSearch, setShowSearch] = useState(false);
@@ -73,6 +72,13 @@ const PlanillaAlumnos: React.FC = () => {
     if (tableRef.current) {
       tableRef.current.focus();
     }
+  }, []);
+
+  useEffect(() => {
+    fetch('/data/alumnos.json')
+      .then(r => r.json())
+      .then((data: Alumno[]) => setAlumnos(data))
+      .catch(() => setAlumnos([]));
   }, []);
 
   return (

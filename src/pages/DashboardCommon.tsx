@@ -1,8 +1,24 @@
 import React, { useState } from 'react';
 import NavbarInstitucional from '../components/NavbarInstitucional';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import ModalEditarPerfil from '../components/ModalEditarPerfil';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
+// Tipo compatible con los datos requeridos por ModalEditarPerfil
+type PerfilEditable = {
+  nombre?: string;
+  username?: string;
+  password?: string;
+  rol?: string;
+  route?: string;
+  genero?: 'M' | 'F' | 'O';
+  foto?: string;
+  mail?: string;
+  telefono?: string;
+  dni?: string;
+  materia?: string;
+  sector?: string;
+};
 
 interface DashboardCommonProps {
   defaultNombre?: string;
@@ -23,13 +39,27 @@ const defaultData = {
 };
 
 const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usuario', defaultRol = 'Usuario' }) => {
-  const { logout } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+  // Inicializar datosPerfil con los datos del usuario, evitando null
+  const [datosPerfil, setDatosPerfil] = useState<PerfilEditable>(user ? { ...user } : {});
 
   const handleAnioClick = (carrera: string, anio: number) => {
     navigate(`/planilla/${encodeURIComponent(carrera)}/${anio}`);
   };
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  // Actualiza la foto de perfil localmente si se edita en el modal
+  const handleSavePerfil = (datos: PerfilEditable) => {
+    setDatosPerfil(datos);
+    if (datos.foto) setProfilePic(datos.foto);
+    setShowModal(false);
+  } 
 
   return (
     <>
@@ -38,14 +68,14 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
           style={{
             backgroundColor: '#00509e',
             color: '#ffffff',
-            height: '60px',
+            height: '35px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 100px', // Incrementar el padding para ampliar el bloque hacia los lados
+            padding: '0 100px',
             boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-            marginTop: '70px', // Reducir ligeramente el margen superior para ajustar el bloque
-            width: '100%', // Ajustar al tamaño de la página
+            marginTop: '70px',
+            width: '100%',
           }}
         >
           <NavbarInstitucional />
@@ -81,19 +111,64 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
             </div>
             {!isSidebarCollapsed && (
               <ul style={{ listStyleType: 'none', padding: '0 20px', width: '100%' }}>
-                <li style={{ marginBottom: '10px' }}>
-                  <Button variant="link" style={{ color: '#ffffff', textDecoration: 'none' }} onClick={() => navigate('/opcion1')}>
-                    Opción 1
+                <li style={{ marginBottom: '30px' }}>
+                  <Button
+                    variant="link"
+                    style={{
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      backgroundColor: '#007bff',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={() => navigate('/planilla-alumnos')}
+                  >
+                    Gestión Alumnos
                   </Button>
                 </li>
-                <li style={{ marginBottom: '10px' }}>
-                  <Button variant="link" style={{ color: '#ffffff', textDecoration: 'none' }} onClick={() => navigate('/opcion2')}>
-                    Opción 2
+                <li style={{ marginBottom: '30px' }}>
+                  <Button
+                    variant="link"
+                    style={{
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      backgroundColor: '#007bff',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={() => navigate('/planilla-docentes')}
+                  >
+                    Gestión Personal Docentes
                   </Button>
                 </li>
-                <li style={{ marginBottom: '10px' }}>
-                  <Button variant="link" style={{ color: '#ffffff', textDecoration: 'none' }} onClick={() => navigate('/opcion3')}>
-                    Opción 3
+                <li style={{ marginBottom: '30px' }}>
+                  <Button
+                    variant="link"
+                    style={{
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      backgroundColor: '#007bff',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={() => navigate('/planilla-no-docentes')}
+                  >
+                    Gestión Personal no Docente
+                  </Button>
+                </li>
+                <li style={{ marginBottom: '30px' }}>
+                  <Button
+                    variant="link"
+                    style={{
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      backgroundColor: '#007bff',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={() => navigate('/otras-gestiones')}
+                  >
+                    Otras Gestiones
                   </Button>
                 </li>
               </ul>
@@ -108,31 +183,57 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
               overflowY: 'auto',
             }}
           >
-            <Container className="pt-5">
-              <Row style={{ paddingTop: '20px' }}>
-                <Col md={8} className="mb-4 text-start d-flex flex-column justify-content-center">
-                  <h2 style={{ marginBottom: '0.5rem', color: '#003366' }}>Bienvenido/a, {defaultNombre}</h2>
-                  <p style={{ marginBottom: 0, color: '#003366' }}><strong>Rol:</strong> {defaultRol}</p>
+            <Container>
+              <Row>
+                <Col md={8} className="mb-4 text-start d-flex flex-column justify-content-start">
+                  <Button
+                    variant="danger"
+                    className="btn-volver btn-danger-important"
+                    style={{
+                      fontSize: '0.7rem',
+                      padding: '3px 8px',
+                      marginTop: '0',
+                      alignSelf: 'flex-start',
+                    }}
+                    onClick={() => navigate('/')}
+                  >
+                    Cerrar Sesión
+                  </Button>
+                  <h2 style={{ marginBottom: '0.5rem', color: '#003366' }}>
+                    {user?.genero === 'F'
+                      ? 'Bienvenida'
+                      : user?.genero === 'M'
+                      ? 'Bienvenido'
+                      : 'Bienvenido/a'}
+                    {`, ${user?.nombre || defaultNombre}`}
+                  </h2>
+                  <p style={{ marginBottom: 0, color: '#003366' }}>
+                    Con tu Rol de: <strong style={{ fontSize: '1.15em' }}>{defaultRol}</strong>
+                  </p>
                 </Col>
                 <Col md={4} className="mb-4 d-flex justify-content-end gap-3">
                   <Button
-                    variant="secondary"
-                    className="btn-volver"
-                    style={{ backgroundColor: '#cccccc', borderColor: '#cccccc', color: '#003366' }}
-                    onClick={() => navigate(-1)}
-                  >
-                    Volver
-                  </Button>
-                  <Button
-                    variant="danger"
-                    className="btn-volver"
-                    style={{ backgroundColor: '#ff4d4d', borderColor: '#ff4d4d', color: '#ffffff' }}
-                    onClick={() => {
-                      logout();
-                      navigate('/');
+                    variant="link"
+                    style={{
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      backgroundColor: '#007bff', // Celeste más intenso
+                      padding: '10px',
+                      borderRadius: '50%', // Hacer el botón redondo
+                      width: '100px', // Ajustar el ancho para mantener la forma redonda
+                      height: '100px', // Ajustar la altura para mantener la forma redonda
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden',
                     }}
+                    onClick={handleShowModal}
                   >
-                    Cerrar sesión
+                    {profilePic ? (
+                      <img src={profilePic} alt="Perfil" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      'Opciones personales'
+                    )}
                   </Button>
                 </Col>
               </Row>
@@ -165,6 +266,13 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
           </div>
         </div>
       </div>
+
+      <ModalEditarPerfil
+        show={showModal}
+        onHide={handleCloseModal}
+        datos={datosPerfil}
+        onSave={handleSavePerfil}
+      />
     </>
   );
 };

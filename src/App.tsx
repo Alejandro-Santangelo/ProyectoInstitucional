@@ -7,6 +7,7 @@ import DashboardSecretaria from './pages/DashboardSecretaria'
 import PlanillaAlumnos from './pages/PlanillaAlumnos'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminUsers from './pages/AdminUsers'
+import LayoutInstitucional from './components/LayoutInstitucional'
 import './App.css'
 
 function App() {
@@ -14,11 +15,11 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/dashboard-profesor" element={<ProtectedRoute><DashboardProfesor /></ProtectedRoute>} />
-      <Route path="/dashboard-directora" element={<ProtectedRoute><DashboardDirectora /></ProtectedRoute>} />
-      <Route path="/dashboard-secretaria" element={<ProtectedRoute><DashboardSecretaria /></ProtectedRoute>} />
-      <Route path="/planilla/:carrera/:anio" element={<ProtectedRoute><PlanillaAlumnos /></ProtectedRoute>} />
-      <Route path="/admin" element={<ProtectedRoute allowedRoles={["Directora"]}><AdminUsers /></ProtectedRoute>} />
+      <Route path="/dashboard-profesor" element={<LayoutInstitucional><ProtectedRoute><DashboardProfesor /></ProtectedRoute></LayoutInstitucional>} />
+      <Route path="/dashboard-directora" element={<LayoutInstitucional><ProtectedRoute><DashboardDirectora /></ProtectedRoute></LayoutInstitucional>} />
+      <Route path="/dashboard-secretaria" element={<LayoutInstitucional><ProtectedRoute><DashboardSecretaria /></ProtectedRoute></LayoutInstitucional>} />
+      <Route path="/planilla/:carrera/:anio" element={<LayoutInstitucional><ProtectedRoute><PlanillaAlumnos /></ProtectedRoute></LayoutInstitucional>} />
+      <Route path="/admin" element={<LayoutInstitucional><ProtectedRoute allowedRoles={["Directora"]}><AdminUsers /></ProtectedRoute></LayoutInstitucional>} />
     </Routes>
   )
 }

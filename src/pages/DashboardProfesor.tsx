@@ -1,8 +1,9 @@
 import DashboardCommon from './DashboardCommon'
 
+
 const DashboardProfesor: React.FC = () => {
-  // Mantener un nombre/rol por defecto en caso de acceder sin state
-  return <DashboardCommon defaultNombre="Juan Pérez" defaultRol="Profesor" />
+  // El nombre y rol se obtienen del contexto de autenticación
+  return <DashboardCommon defaultRol="Profesor" />
 }
 
 export default DashboardProfesor

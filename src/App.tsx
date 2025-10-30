@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage'
+import HistorialAlumno from './components/HistorialAlumno';
 import AuthPage from './pages/AuthPage'
 import DashboardProfesor from './pages/DashboardProfesor'
 import DashboardDirectora from './pages/DashboardDirectora'
@@ -18,7 +19,8 @@ function App() {
       <Route path="/dashboard-profesor" element={<LayoutInstitucional><ProtectedRoute><DashboardProfesor /></ProtectedRoute></LayoutInstitucional>} />
       <Route path="/dashboard-directora" element={<LayoutInstitucional><ProtectedRoute><DashboardDirectora /></ProtectedRoute></LayoutInstitucional>} />
       <Route path="/dashboard-secretaria" element={<LayoutInstitucional><ProtectedRoute><DashboardSecretaria /></ProtectedRoute></LayoutInstitucional>} />
-      <Route path="/planilla/:carrera/:anio" element={<LayoutInstitucional><ProtectedRoute><PlanillaAlumnos /></ProtectedRoute></LayoutInstitucional>} />
+  <Route path="/planilla/:carrera/:anio" element={<LayoutInstitucional><ProtectedRoute><PlanillaAlumnos /></ProtectedRoute></LayoutInstitucional>} />
+  <Route path="/planilla/:carrera/:anio/historial/:id" element={<LayoutInstitucional><ProtectedRoute><HistorialAlumno /></ProtectedRoute></LayoutInstitucional>} />
       <Route path="/admin" element={<LayoutInstitucional><ProtectedRoute allowedRoles={["Directora"]}><AdminUsers /></ProtectedRoute></LayoutInstitucional>} />
     </Routes>
   )

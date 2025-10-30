@@ -1,0 +1,206 @@
+.modal-agregar-alumno-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeInBg 0.4s;
+
+@keyframes fadeInBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-agregar-alumno {
+  background: linear-gradient(135deg, #e0e7ef 60%, #f8fafc 100%);
+  box-shadow: 0 8px 32px rgba(60,60,120,0.18);
+  padding: 32px 28px;
+  border-radius: 22px;
+    width: 500px;
+    min-width: 500px;
+    max-width: 500px;
+    height: 650px;
+    max-height: 650px;
+    min-height: 650px;
+    overflow-y: auto;
+    box-sizing: border-box;
+  width: 100%;
+  border: 2px solid #4a6cf7;
+  position: relative;
+  animation: fadeInModal 0.5s cubic-bezier(.4,0,.2,1);
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.modal-agregar-alumno .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px 32px;
+  }
+
+  @media (max-width: 1200px) {
+    .modal-agregar-alumno {
+      max-width: 700px;
+    }
+    .modal-agregar-alumno .form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .modal-agregar-alumno {
+      max-width: 98vw;
+      width: 98vw;
+      padding: 12px 4vw;
+    }
+    .modal-agregar-alumno .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@keyframes fadeInModal {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-agregar-alumno .modal-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.modal-agregar-alumno .modal-icon svg {
+  width: 54px;
+  height: 54px;
+  color: #4a6cf7;
+  background: #eaf1fb;
+  border-radius: 50%;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(60,120,200,0.08);
+}
+
+.modal-agregar-alumno h3 {
+  text-align: center;
+  margin-bottom: 18px;
+  color: #4a6cf7;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.modal-agregar-alumno .form-label {
+  font-weight: 600;
+  color: #4a6cf7;
+  min-width: 120px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.modal-agregar-alumno .form-control {
+  border-radius: 10px;
+  border: 1.5px solid #b6c2e1;
+  padding: 9px 14px;
+  font-size: 16px;
+  background: #f5f8fa;
+  margin-bottom: 2px;
+  transition: border-color 0.2s;
+  font-weight: 500;
+  color: #2a3b5c;
+}
+.modal-agregar-alumno .form-control:focus {
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 2px #eaf1fb;
+}
+
+.modal-agregar-alumno .modal-btns {
+  display: flex;
+  gap: 22px;
+  margin-top: 28px;
+  justify-content: center;
+}
+
+.modal-agregar-alumno .btn {
+  min-width: 120px;
+  font-weight: 600;
+  font-size: 17px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(60,120,60,0.08);
+  padding: 8px 0;
+}
+.modal-agregar-alumno .btn-success {
+  background: #4a6cf7;
+  border: none;
+  color: #fff;
+}
+.modal-agregar-alumno .btn-success:hover {
+  background: #3556b0;
+}
+.modal-agregar-alumno .btn-outline-secondary {
+  background: #fff;
+  border: 1.5px solid #b6c2e1;
+  color: #2a3b5c;
+}
+.modal-agregar-alumno .btn-outline-secondary:hover {
+  background: #eaf1fb;
+}
+.modal-agregar-alumno-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-agregar-alumno {
+  background: linear-gradient(135deg, #f8fafc 80%, #e0e7ef 100%);
+  box-shadow: 0 8px 32px rgba(60,60,120,0.18);
+  padding: 32px 28px;
+  border-radius: 18px;
+  min-width: 370px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.modal-agregar-alumno h3 {
+  text-align: center;
+  margin-bottom: 18px;
+  color: #2a3b5c;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.modal-agregar-alumno .form-label {
+  font-weight: 500;
+  color: #3a4a6a;
+  margin-bottom: 4px;
+}
+
+.modal-agregar-alumno .form-control {
+  border-radius: 8px;
+  border: 1px solid #b6c2e1;
+  padding: 7px 12px;
+  font-size: 15px;
+  background: #f5f8fa;
+}
+
+.modal-agregar-alumno .modal-btns {
+  display: flex;
+  gap: 18px;
+  margin-top: 24px;
+  justify-content: center;
+}
+
+.modal-agregar-alumno .btn {
+  min-width: 110px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(60,120,60,0.08);
+}

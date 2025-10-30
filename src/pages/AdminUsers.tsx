@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import db from '../data/db';
 import NavbarInstitucional from '../components/NavbarInstitucional'
 import { Container, Row, Col, Table, Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 
 type UserEditable = {
-  nombre: string
-  username: string
-  password: string
-  route: string
-  rol: string
-  genero?: 'M'|'F'|'O' | string
+  id: number;
+  nombre: string;
+  username: string;
+  password: string;
+  route: string;
+  rol: string;
+  genero?: 'M'|'F'|'O' | string;
 }
 
 const LOCAL_KEY = 'usuarios_local'
@@ -23,30 +25,17 @@ const AdminUsers: React.FC = () => {
   // const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Preferir localStorage
-    const saved = localStorage.getItem(LOCAL_KEY)
-    if (saved) {
-      try {
-        setUsuarios(JSON.parse(saved))
-        setLoading(false)
-        return
-      } catch (e) {
-        console.error(e)
-      }
-    }
+    db.table('usuarios').toArray().then((data: UserEditable[]) => {
+      setUsuarios(data);
+      setLoading(false);
+    });
+  }, []);
 
-    fetch('/data/usuarios.json')
-      .then(r => r.json())
-      .then((data: UserEditable[]) => setUsuarios(data))
-      .catch(e => {
-        console.error(e)
-      })
-      .finally(() => setLoading(false))
-  }, [])
-
-  const saveLocal = (list: UserEditable[]) => {
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(list, null, 2))
-    setUsuarios(list)
+  const saveLocal = async (list: UserEditable[]) => {
+    // Limpiar y guardar en IndexedDB
+    await db.table('usuarios').clear();
+    await db.table('usuarios').bulkAdd(list.map((u, idx) => ({ ...u, id: u.id ?? idx + 1 })));
+    setUsuarios(list);
   }
 
   const handleChangeField = (idx: number, field: keyof UserEditable, value: string) => {
@@ -56,24 +45,28 @@ const AdminUsers: React.FC = () => {
   setUsuarios(next)
   }
 
-  const handleAdd = () => {
-    const next = [...usuarios, { nombre: '', username: '', password: '', route: '/', rol: '', genero: 'O' } as UserEditable]
-    setUsuarios(next)
+  const handleAdd = async () => {
+    const newUser: UserEditable = { id: usuarios.length + 1, nombre: '', username: '', password: '', route: '/', rol: '', genero: 'O' };
+    const next = [...usuarios, newUser];
+    setUsuarios(next);
+    await db.table('usuarios').add(newUser);
   }
 
-  const handleRemove = (idx: number) => {
-    const next = usuarios.filter((_, i) => i !== idx)
-    setUsuarios(next)
+  const handleRemove = async (idx: number) => {
+    const user = usuarios[idx];
+    const next = usuarios.filter((_, i) => i !== idx);
+    setUsuarios(next);
+    await db.table('usuarios').delete(user.id || idx + 1);
   }
 
-  const handleSave = () => {
-    saveLocal(usuarios)
-    alert('Usuarios guardados en localStorage')
+  const handleSave = async () => {
+    await saveLocal(usuarios);
+    alert('Usuarios guardados en IndexedDB');
   }
 
-  const handleReset = () => {
-    localStorage.removeItem(LOCAL_KEY)
-    window.location.reload()
+  const handleReset = async () => {
+    await db.table('usuarios').clear();
+    window.location.reload();
   }
 
   const handleExport = () => {

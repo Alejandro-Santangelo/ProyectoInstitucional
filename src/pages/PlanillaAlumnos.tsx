@@ -1,4 +1,6 @@
+import './PlanillaAlumnos.css';
 import React, { useState, useEffect, useRef } from "react";
+import db from '../data/db';
 import NavbarInstitucional from "../components/NavbarInstitucional";
 import { Container, Row, Col, Card, Table, Button, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
@@ -18,6 +20,9 @@ export type Alumno = {
   observaciones: string;
 };
 
+const resumenColumnas: (keyof Alumno)[] = [
+  "nombre", "apellido", "matricula", "telefono", "estado"
+];
 const columnas: (keyof Alumno)[] = [
   "idAlumno", "nombre", "apellido", "matricula", "dni", "email", "edad", "direccion", "localidad", "telefono", "estado", "observaciones"
 ];
@@ -26,32 +31,36 @@ const PlanillaAlumnos: React.FC = () => {
   const { carrera, anio } = useParams();
   const navigate = useNavigate();
   const [alumnos, setAlumnos] = useState<Alumno[]>([]);
-  const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [editData, setEditData] = useState<Alumno | null>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const [pendingSearchValue, setPendingSearchValue] = useState('');
   const [pendingSearchField, setPendingSearchField] = useState<keyof Alumno>('nombre');
-
   const [searchField, setSearchField] = useState<keyof Alumno>('nombre');
   const [searchValue, setSearchValue] = useState('');
-
   const alumnosFiltrados = searchValue
     ? alumnos.filter(alumno =>
         String(alumno[searchField]).toLowerCase().includes(searchValue.toLowerCase())
       )
     : alumnos;
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const selectedAlumno = selectedIndex !== null ? alumnosFiltrados[selectedIndex] : null;
 
-  const handleEdit = (idx: number) => {
-    setEditIndex(idx);
-    setEditData(alumnos[idx]);
+
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState<Alumno | null>(null);
+
+  const handleEdit = () => {
+    if (selectedAlumno) {
+      setEditMode(true);
+      setEditData(selectedAlumno);
+    }
   };
 
-  const handleSave = () => {
-    if (editIndex !== null && editData) {
-      const nuevos = [...alumnos];
-      nuevos[editIndex] = editData;
-      setAlumnos(nuevos);
-      setEditIndex(null);
+  const handleSave = async () => {
+    if (editData) {
+      await db.table('alumnos').put(editData);
+      setAlumnos(alumnos.map(a => a.idAlumno === editData.idAlumno ? editData : a));
+      setEditMode(false);
       setEditData(null);
     }
   };
@@ -62,9 +71,16 @@ const PlanillaAlumnos: React.FC = () => {
     }
   };
 
-  const handleDelete = (idx: number) => {
-    setAlumnos(alumnos.filter((_, i) => i !== idx));
+  const handleDelete = async () => {
+    if (selectedAlumno) {
+      await db.table('alumnos').delete(selectedAlumno.idAlumno);
+      setAlumnos(alumnos.filter(a => a.idAlumno !== selectedAlumno.idAlumno));
+      setSelectedIndex(null);
+    }
   };
+
+
+
 
   const tableRef = useRef<HTMLDivElement>(null);
 
@@ -75,29 +91,55 @@ const PlanillaAlumnos: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetch('/data/alumnos.json')
-      .then(r => r.json())
-      .then((data: Alumno[]) => setAlumnos(data))
-      .catch(() => setAlumnos([]));
+    db.table('alumnos').toArray().then((data: Alumno[]) => {
+      setAlumnos(data);
+    });
   }, []);
 
   return (
     <div className="dashboard-page">
       <NavbarInstitucional />
-      <Container className="pt-5" style={{paddingTop: '140px'}}>
-        <Row style={{paddingTop: '140px'}}>
-          <Col md={8} className="mb-4 text-start d-flex flex-column justify-content-center">
-            <h2 style={{marginBottom: '0.5rem'}}>Planilla de Alumnos</h2>
-            <p style={{marginBottom: 0}}><strong>Carrera:</strong> {carrera} &nbsp; <strong>Año:</strong> {anio}</p>
-          </Col>
-          <Col md={4} className="mb-4 d-flex justify-content-end gap-3">
-            <Button variant="secondary" className="btn-volver" onClick={() => navigate(-1)}>Volver</Button>
-            <Button variant="danger" className="btn-volver" style={{marginTop: '18px'}} onClick={() => navigate('/')}>Cerrar sesión</Button>
+  <Container className="pt-3 px-0" style={{paddingTop: '40px', maxWidth: '900px'}}>
+  <Row style={{paddingTop: '80px'}}>
+          <Col md={12} className="mb-4 text-start d-flex flex-column justify-content-start px-0" style={{paddingLeft: 0, marginLeft: 0}}>
+            <div className="d-flex align-items-center gap-3">
+              <div className="titulo-planilla-alumnos">
+                <h2 style={{marginBottom: '0.5rem'}}>Planilla de Alumnos</h2>
+                <p style={{marginBottom: 0}}><strong>Carrera:</strong> {carrera} &nbsp; <strong>Año:</strong> {anio}</p>
+              </div>
+              <div className="d-flex gap-5 ms-7 me-0">
+                <Button size="sm" variant="secondary" onClick={() => navigate(-1)} style={{marginLeft: '96px'}}>
+                  Volver al Dashboard
+                </Button>
+                <Button size="sm" variant="success">Agregar Alumno</Button>
+                <Button size="sm"
+                  variant="primary"
+                  disabled={!selectedAlumno || editMode}
+                  onClick={handleEdit}
+                >Editar</Button>
+                <Button size="sm"
+                  variant="success"
+                  disabled={!editMode}
+                  onClick={handleSave}
+                >Guardar</Button>
+                <Button size="sm"
+                  variant="danger"
+                  disabled={!selectedAlumno || editMode}
+                  onClick={handleDelete}
+                >Eliminar</Button>
+                <Button size="sm"
+                  variant="info"
+                  disabled={!selectedAlumno}
+                  onClick={() => setExpandedIndex(selectedIndex)}
+                >Ver</Button>
+                <Button size="sm" variant="secondary" onClick={() => { setExpandedIndex(null); setSelectedIndex(null); }}>Volver a Lista</Button>
+              </div>
+            </div>
           </Col>
         </Row>
         <Row>
           <Col md={12}>
-            <Card className="card" style={{background: 'linear-gradient(135deg, #e0e0e0 60%, #f5f5f5 100%)', backdropFilter: 'blur(6px)'}}>
+            <Card className="card" style={{background: 'linear-gradient(135deg, #e0e0e0 60%, #f5f5f5 100%)', backdropFilter: 'blur(6px)', width: '100vw', maxWidth: '100vw', marginLeft: '-240px', marginRight: '0', padding: '0'}}>
               <Card.Body>
                 <div className="mb-3 d-flex align-items-center gap-2">
                   <Button variant="info" onClick={() => setShowSearch(s => !s)}>
@@ -127,7 +169,7 @@ const PlanillaAlumnos: React.FC = () => {
                 <div
                   ref={tableRef}
                   tabIndex={0}
-                  style={{maxHeight: '60vh', minWidth: '900px', overflow: 'auto', overflowX: 'auto', outline: 'none', whiteSpace: 'nowrap'}}
+                  style={{maxHeight: '45vh', minWidth: '100%', overflow: 'auto', outline: 'none', whiteSpace: 'nowrap', marginBottom: '8px'}}
                   onKeyDown={e => {
                     const el = tableRef.current;
                     if (!el) return;
@@ -150,51 +192,61 @@ const PlanillaAlumnos: React.FC = () => {
                     }
                   }}
                 >
-                  <div style={{display: 'inline-block', minWidth: '1200px'}}>
+                  <div style={{display: 'inline-block', width: '100vw', minWidth: '100vw'}}>
                     <Table responsive bordered hover className="mb-0">
-                      <thead>
-                        <tr>
-                          {columnas.map(col => (
-                            <th key={col}>{col.charAt(0).toUpperCase() + col.slice(1)}</th>
-                          ))}
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                           <thead>
+                             <tr>
+                               {resumenColumnas.map(col => (
+                                 <th key={col} className={col === "estado" ? "col-estado" : "col-estrecha"}>{col.charAt(0).toUpperCase() + col.slice(1)}</th>
+                               ))}
+                             </tr>
+                           </thead>
+                           <tbody>
                         {alumnosFiltrados.map((alumno, idx) => (
-                          <tr key={alumno.idAlumno} className={editIndex === idx ? "table-primary" : ""}>
-                            {columnas.map(col => (
-                              <td key={col}>
-                                {editIndex === idx ? (
-                                  <Form.Control
-                                    type="text"
-                                    name={col}
-                                    value={editData ? editData[col] : ""}
-                                    onChange={handleChange}
-                                  />
-                                ) : (
-                                  alumno[col]
-                                )}
-                              </td>
-                            ))}
-                            <td>
-                              {editIndex === idx ? (
-                                <Button size="sm" variant="success" onClick={handleSave}>Guardar</Button>
-                              ) : (
-                                <>
-                                  <Button size="sm" variant="primary" onClick={() => handleEdit(idx)}>Editar</Button>{' '}
-                                  <Button size="sm" variant="danger" onClick={() => handleDelete(idx)}>Eliminar</Button>
-                                </>
-                              )}
-                            </td>
-                          </tr>
+                          <React.Fragment key={alumno.idAlumno}>
+                            <tr
+                              className={selectedIndex === idx ? "table-info" : ""}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() => setSelectedIndex(idx)}
+                            >
+                              {resumenColumnas.map(col => (
+                                <td key={col} className={col === "estado" ? "col-estado" : "col-estrecha"}>
+                                  {editMode && selectedIndex === idx ? (
+                                    <Form.Control
+                                      type="text"
+                                      name={col}
+                                      value={editData ? editData[col] : ""}
+                                      onChange={handleChange}
+                                    />
+                                  ) : (
+                                    alumno[col]
+                                  )}
+                                </td>
+                              ))}
+                            </tr>
+                            {expandedIndex === idx && (
+                              <tr>
+                                <td colSpan={resumenColumnas.length}>
+                                  <div style={{ padding: '12px 18px', background: '#f5f5f5', borderRadius: 8 }}>
+                                    <strong>Información completa:</strong>
+                                    <ul style={{ margin: '8px 0 0 0', padding: 0, listStyle: 'none' }}>
+                                      {columnas.filter(col => !resumenColumnas.includes(col)).map(col => (
+                                        <li key={col} style={{ marginBottom: 4 }}>
+                                          <span style={{ fontWeight: 500 }}>{col.charAt(0).toUpperCase() + col.slice(1)}:</span> {alumno[col]}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </React.Fragment>
                         ))}
                       </tbody>
                     </Table>
                   </div>
                 </div>
                 <div className="mt-3">
-                  <Button variant="success">Agregar Alumno</Button>
                 </div>
               </Card.Body>
             </Card>

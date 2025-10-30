@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import db from '../data/db';
 import NavbarInstitucional from "../components/NavbarInstitucional";
 import { Container, Row, Col, Card, Table, Button, Form } from "react-bootstrap";
 
@@ -18,10 +19,9 @@ const PlanillaDocentes: React.FC = () => {
   const [editData, setEditData] = useState<Docente | null>(null);
 
   useEffect(() => {
-    fetch('/data/personalDocentes.json')
-      .then(r => r.json())
-      .then((data: Docente[]) => setDocentes(data))
-      .catch(() => setDocentes([]));
+    db.table('personalDocentes').toArray().then((data: Docente[]) => {
+      setDocentes(data);
+    });
   }, []);
 
   const handleEdit = (idx: number) => {
@@ -29,11 +29,12 @@ const PlanillaDocentes: React.FC = () => {
     setEditData(docentes[idx]);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editIndex !== null && editData) {
       const nuevos = [...docentes];
       nuevos[editIndex] = editData;
       setDocentes(nuevos);
+      await db.table('personalDocentes').put({ id: editIndex + 1, ...editData });
       setEditIndex(null);
       setEditData(null);
     }
@@ -45,8 +46,9 @@ const PlanillaDocentes: React.FC = () => {
     }
   };
 
-  const handleDelete = (idx: number) => {
+  const handleDelete = async (idx: number) => {
     setDocentes(docentes.filter((_, i) => i !== idx));
+    await db.table('personalDocentes').delete(idx + 1);
   };
 
   return (

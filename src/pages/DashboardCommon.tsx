@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import db from '../data/db';
 import NavbarInstitucional from '../components/NavbarInstitucional';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import ModalEditarPerfil from '../components/ModalEditarPerfil';
@@ -55,11 +56,18 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
   const handleShowModal = () => setShowModal(true);
 
   // Actualiza la foto de perfil localmente si se edita en el modal
-  const handleSavePerfil = (datos: PerfilEditable) => {
+  const handleSavePerfil = async (datos: PerfilEditable) => {
     setDatosPerfil(datos);
     if (datos.foto) setProfilePic(datos.foto);
+    // Actualizar usuario en IndexedDB por username
+    if (user && user.username) {
+      const dbUser = await db.table('usuarios').where('username').equals(user.username).first();
+      if (dbUser && dbUser.id) {
+        await db.table('usuarios').put({ ...dbUser, ...datos, id: dbUser.id });
+      }
+    }
     setShowModal(false);
-  } 
+  }
 
   return (
     <>

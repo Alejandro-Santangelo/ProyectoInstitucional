@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import db from '../data/db';
 
 export interface PermisosNoDocenteData {
   noDocenteId: string;
@@ -13,15 +14,18 @@ interface PermisosNoDocenteModalProps {
 }
 
 const PermisosNoDocenteModal: React.FC<PermisosNoDocenteModalProps> = ({ show, onHide, onSubmit }) => {
-  // Simulación de no docentes y permisos
   const [noDocenteId, setNoDocenteId] = useState("");
   const [permiso, setPermiso] = useState("");
-  const noDocentes = [
-    { id: "1", nombre: "María López" },
-    { id: "2", nombre: "Pedro Sánchez" },
-    { id: "3", nombre: "Lucía Fernández" },
-  ];
+  const [noDocentes, setNoDocentes] = useState<Array<{ id: string, nombre: string, apellido: string }>>([]);
   const permisos = ["Ver información", "Editar información", "Acceso total"];
+
+  useEffect(() => {
+    async function fetchNoDocentes() {
+      const result = await db.table('personalNoDocentes').toArray();
+      setNoDocentes(result);
+    }
+    fetchNoDocentes();
+  }, [show]);
 
   const handleSubmit = () => {
     const data: PermisosNoDocenteData = { noDocenteId, permiso };
@@ -36,13 +40,7 @@ const PermisosNoDocenteModal: React.FC<PermisosNoDocenteModalProps> = ({ show, o
       centered
       contentClassName="modal-permisos-nodocente"
       dialogClassName="modal-xl"
-      style={{
-        minHeight: 'unset',
-        maxWidth: 600,
-        left: '50%', /* Centrar el modal horizontalmente */
-        transform: 'translateX(-50%)', /* Ajustar para centrar */
-        marginTop: '5vh' /* Mantener el margen superior */
-      }}
+      style={{ minHeight: 'unset', maxWidth: 600, left: '50%', transform: 'translateX(-50%)', marginTop: '5vh', position: 'absolute' }}
     >
       <Modal.Header closeButton style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', color: '#fff', borderBottom: 'none', minHeight: 36, padding: '8px 18px' }}>
         <Modal.Title style={{ fontWeight: 700, letterSpacing: 1, fontSize: 20, marginBottom: 0 }}>Asignar / Modificar permisos a No Docentes</Modal.Title>
@@ -56,7 +54,7 @@ const PermisosNoDocenteModal: React.FC<PermisosNoDocenteModalProps> = ({ show, o
                 <Form.Select value={noDocenteId} onChange={e => setNoDocenteId(e.target.value)} style={{ borderRadius: 16, border: '1px solid #007bff', background: '#e3eefe', fontWeight: 500, fontSize: 14, height: 32 }}>
                   <option value="">Seleccionar no docente</option>
                   {noDocentes.map(nd => (
-                    <option key={nd.id} value={nd.id}>{nd.nombre}</option>
+                    <option key={nd.id} value={nd.id}>{nd.nombre} {nd.apellido}</option>
                   ))}
                 </Form.Select>
               </Form.Group>

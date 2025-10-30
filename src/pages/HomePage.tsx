@@ -35,7 +35,7 @@ function HomePage() {
       
   <Container fluid className="p-0" style={{paddingTop: '10px', minHeight: 'calc(100vh - 140px)', background: 'linear-gradient(90deg, rgb(0, 80, 158) 0%, rgb(58, 123, 213) 100%)'}}>
   <Row className="h-100" style={{minHeight: '65vh', maxHeight: '65vh', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', marginTop: '0px', overflow: 'hidden'}}>
-          <Col xs={12} md={8} className="d-flex flex-column align-items-center justify-content-start" style={{width: '100%'}}>
+          <Col xs={12} md={8} className="d-flex flex-column align-items-center justify-content-start" style={{width: '100%', marginLeft: '70px'}}>
             <div className="bloque-inicio" style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', marginTop: '0px'}}>
               <h1 className="titulo-principal titulo-inicio" style={{marginTop: '0px'}}>Gestión Institucional</h1>
               <form onSubmit={handleSubmit} style={{width: '100%', maxWidth: 320, marginTop: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center'}} className="form-inicio">

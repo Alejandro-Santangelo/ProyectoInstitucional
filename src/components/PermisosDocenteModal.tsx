@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import db from '../data/db';
 
 export interface PermisosDocenteData {
   docenteId: string;
@@ -13,15 +14,18 @@ interface PermisosDocenteModalProps {
 }
 
 const PermisosDocenteModal: React.FC<PermisosDocenteModalProps> = ({ show, onHide, onSubmit }) => {
-  // Simulación de docentes y permisos
   const [docenteId, setDocenteId] = useState("");
   const [permiso, setPermiso] = useState("");
-  const docentes = [
-    { id: "1", nombre: "Juan Pérez" },
-    { id: "2", nombre: "Ana Gómez" },
-    { id: "3", nombre: "Carlos Ruiz" },
-  ];
+  const [docentes, setDocentes] = useState<Array<{ id: string, nombre: string, apellido: string }>>([]);
   const permisos = ["Ver notas", "Editar notas", "Acceso total"];
+
+  useEffect(() => {
+    async function fetchDocentes() {
+      const result = await db.table('personalDocentes').toArray();
+      setDocentes(result);
+    }
+    fetchDocentes();
+  }, [show]);
 
   const handleSubmit = () => {
     const data: PermisosDocenteData = { docenteId, permiso };
@@ -58,7 +62,7 @@ const PermisosDocenteModal: React.FC<PermisosDocenteModalProps> = ({ show, onHid
                 <Form.Select value={docenteId} onChange={e => setDocenteId(e.target.value)} style={{ borderRadius: 16, border: '1px solid #007bff', background: '#e3eefe', fontWeight: 500, fontSize: 14, height: 32 }}>
                   <option value="">Seleccionar docente</option>
                   {docentes.map(doc => (
-                    <option key={doc.id} value={doc.id}>{doc.nombre}</option>
+                    <option key={doc.id} value={doc.id}>{doc.nombre} {doc.apellido}</option>
                   ))}
                 </Form.Select>
               </Form.Group>

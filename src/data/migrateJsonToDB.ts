@@ -5,11 +5,8 @@ import personalDocentesJson from '../../public/data/personalDocentes.json';
 import personalNoDocentesJson from '../../public/data/personalNoDocentes.json';
 import usuariosJson from '../../public/data/usuarios.json';
 
-// Verifica si ya se migraron los datos
-const MIGRATION_KEY = 'institucional_migracion_completa';
-
 export async function migrateJsonToDB() {
-  if (localStorage.getItem(MIGRATION_KEY)) return;
+  // Eliminar el chequeo de migración para que siempre actualice los datos
 
   // Alumnos
   await db.table('alumnos').clear();
@@ -46,6 +43,4 @@ export async function migrateJsonToDB() {
       ...u
     }))
   );
-
-  localStorage.setItem(MIGRATION_KEY, 'true');
 }

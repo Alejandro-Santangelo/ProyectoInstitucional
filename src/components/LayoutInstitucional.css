@@ -46,7 +46,7 @@
 .main-content {
   flex: 1;
   background: #f0f8ff;
-  padding: -2px 0.75px 0px 0.25px;
+  padding: 0px 0.75px 0.5px 0.25px;
   margin-top: 0px;
   margin-left: 0px;
   margin-right: 0;
@@ -74,9 +74,6 @@ nav.navbar {
 }
 
 body {
-  .sidebar-institucional ul {
-    margin-top: 40px !important;
-  }
   padding-top: 120px;
   background: linear-gradient(90deg, rgb(0, 80, 158) 0%, rgb(58, 123, 213) 100%);
 }

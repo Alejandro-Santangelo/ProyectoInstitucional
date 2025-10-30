@@ -20,8 +20,8 @@ const OtrasGestiones: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "2rem", marginTop: "6rem" }}>
-      <h1>Otras Gestiones</h1>
+    <div style={{ padding: "2rem", marginTop: "0.5rem" }}>
+      <h1 style={{ textAlign: 'center', marginTop: '0.5rem' }}>Otras Gestiones</h1>
       <button
         style={{
           width: '100%',

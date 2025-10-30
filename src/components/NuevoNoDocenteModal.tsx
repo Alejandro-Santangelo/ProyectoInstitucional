@@ -73,7 +73,23 @@ const NuevoNoDocenteModal: React.FC<NuevoNoDocenteModalProps> = ({ show, onHide,
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered contentClassName="modal-nueva-nodocente" dialogClassName="modal-xl" style={{ minHeight: 'unset', maxWidth: 600 }}>
+    <Modal
+      show={show}
+      onHide={onHide}
+      centered
+      contentClassName="modal-nueva-nodocente"
+      dialogClassName="modal-xl"
+      style={{
+        minHeight: 'unset',
+        width: '750px',
+        height: '624px',
+        overflow: 'hidden',
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        marginTop: '2vh'
+      }}
+    >
       <Modal.Header closeButton style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', color: '#fff', borderBottom: 'none', minHeight: 36, padding: '8px 18px' }}>
         <Modal.Title style={{ fontWeight: 700, letterSpacing: 1, fontSize: 20, marginBottom: 0 }}>Sumar nuevo No Docente</Modal.Title>
       </Modal.Header>
@@ -169,9 +185,9 @@ const NuevoNoDocenteModal: React.FC<NuevoNoDocenteModalProps> = ({ show, onHide,
           )}
   </Form>
       </Modal.Body>
-      <Modal.Footer style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }}>
-        <Button variant="secondary" onClick={onHide} style={{ borderRadius: 16 }}>Cancelar</Button>
-        <Button variant="primary" onClick={handleSubmit} style={{ borderRadius: 16 }}>Guardar No Docente</Button>
+      <Modal.Footer style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', borderBottomLeftRadius: 12, borderBottomRightRadius: 12, padding: '5px 20px' }}>
+        <Button variant="secondary" onClick={onHide} style={{ borderRadius: 16, marginRight: '20px', marginTop: '2px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Cancelar</Button>
+        <Button variant="primary" onClick={handleSubmit} style={{ borderRadius: 16, marginTop: '2px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Guardar No Docente</Button>
       </Modal.Footer>
     </Modal>
   );

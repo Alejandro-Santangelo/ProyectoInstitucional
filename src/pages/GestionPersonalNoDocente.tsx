@@ -33,8 +33,8 @@ const GestionPersonalNoDocente: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "2rem", marginTop: "6rem" }}>
-      <h1>Gestión de Personal No Docente</h1>
+    <div style={{ padding: "2rem", marginTop: "0.5rem" }}>
+      <h1 style={{ textAlign: 'center', marginTop: '0.5rem' }}>Gestión de Personal No Docente</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center', marginTop: '3rem' }}>
         <button
           style={{

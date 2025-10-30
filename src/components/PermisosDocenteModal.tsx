@@ -30,12 +30,27 @@ const PermisosDocenteModal: React.FC<PermisosDocenteModalProps> = ({ show, onHid
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered contentClassName="modal-permisos-docente" dialogClassName="modal-xl" style={{ minHeight: 'unset', maxWidth: 600 }}>
+    <Modal
+      show={show}
+      onHide={onHide}
+      centered
+      contentClassName="modal-permisos-docente"
+      dialogClassName="modal-xl"
+      style={{
+        minHeight: 'unset',
+        width: 480,
+        maxWidth: '90vw',
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        marginTop: '5vh'
+      }}
+    >
       <Modal.Header closeButton style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', color: '#fff', borderBottom: 'none', minHeight: 36, padding: '8px 18px' }}>
         <Modal.Title style={{ fontWeight: 700, letterSpacing: 1, fontSize: 20, marginBottom: 0 }}>Asignar / Modificar permisos a Docentes</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ background: 'linear-gradient(120deg, #f0f8ff 60%, #e3eefe 100%)', borderRadius: 12, padding: '24px 32px 12px 32px', minHeight: 220, maxHeight: 400, overflowY: 'auto' }}>
-        <Form>
+  <Form>
           <Row>
             <Col md={8} xs={12} className="mb-3">
               <Form.Group>

@@ -30,12 +30,25 @@ const PermisosNoDocenteModal: React.FC<PermisosNoDocenteModalProps> = ({ show, o
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered contentClassName="modal-permisos-nodocente" dialogClassName="modal-xl" style={{ minHeight: 'unset', maxWidth: 600 }}>
+    <Modal
+      show={show}
+      onHide={onHide}
+      centered
+      contentClassName="modal-permisos-nodocente"
+      dialogClassName="modal-xl"
+      style={{
+        minHeight: 'unset',
+        maxWidth: 600,
+        left: '50%', /* Centrar el modal horizontalmente */
+        transform: 'translateX(-50%)', /* Ajustar para centrar */
+        marginTop: '5vh' /* Mantener el margen superior */
+      }}
+    >
       <Modal.Header closeButton style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', color: '#fff', borderBottom: 'none', minHeight: 36, padding: '8px 18px' }}>
         <Modal.Title style={{ fontWeight: 700, letterSpacing: 1, fontSize: 20, marginBottom: 0 }}>Asignar / Modificar permisos a No Docentes</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ background: 'linear-gradient(120deg, #f0f8ff 60%, #e3eefe 100%)', borderRadius: 12, padding: '24px 32px 12px 32px', minHeight: 220, maxHeight: 400, overflowY: 'auto' }}>
-        <Form>
+  <Form>
           <Row>
             <Col md={8} xs={12} className="mb-3">
               <Form.Group>
@@ -62,9 +75,9 @@ const PermisosNoDocenteModal: React.FC<PermisosNoDocenteModalProps> = ({ show, o
           </Row>
         </Form>
       </Modal.Body>
-      <Modal.Footer style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }}>
-        <Button variant="secondary" onClick={onHide} style={{ borderRadius: 16 }}>Cancelar</Button>
-        <Button variant="primary" onClick={handleSubmit} style={{ borderRadius: 16 }}>Guardar Permiso</Button>
+      <Modal.Footer style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', borderBottomLeftRadius: 12, borderBottomRightRadius: 12, padding: '5px 20px' }}>
+        <Button variant="secondary" onClick={onHide} style={{ borderRadius: 16, marginRight: '20px', marginTop: '2px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Cancelar</Button>
+        <Button variant="primary" onClick={handleSubmit} style={{ borderRadius: 16, marginTop: '2px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Guardar Permiso</Button>
       </Modal.Footer>
     </Modal>
   );

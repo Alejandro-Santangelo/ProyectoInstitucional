@@ -1,5 +1,6 @@
 import './PlanillaAlumnos.css';
 import React, { useState, useEffect, useRef } from "react";
+import HistorialAcademicoModal from '../components/HistorialAcademicoModal';
 import db from '../data/db';
 import '../components/ModalVerAlumno.css';
 import '../components/ModalAgregarAlumno.css';
@@ -31,6 +32,7 @@ const columnas: (keyof Alumno)[] = [
 ];
 
 const PlanillaAlumnos: React.FC = () => {
+  const [showHistorialModal, setShowHistorialModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newAlumno, setNewAlumno] = useState<Alumno | null>(null);
@@ -225,12 +227,15 @@ const PlanillaAlumnos: React.FC = () => {
                 <Button size="sm"
                   variant="warning"
                   disabled={!selectedAlumno}
-                  onClick={() => {
-                    if (selectedAlumno) {
-                      navigate(`/planilla/${carrera}/${anio}/historial/${selectedAlumno.idAlumno}`);
-                    }
-                  }}
+                  onClick={() => setShowHistorialModal(true)}
                 >Historial</Button>
+      {/* Modal grande para historial académico */}
+      <HistorialAcademicoModal
+        alumno={selectedAlumno}
+        show={showHistorialModal && !!selectedAlumno}
+        onClose={() => setShowHistorialModal(false)}
+        anio={Number(anio) || 1}
+      />
                 <Button size="sm" variant="secondary" onClick={() => { setExpandedIndex(null); setSelectedIndex(null); }}>Volver a Lista</Button>
               </div>
             </div>

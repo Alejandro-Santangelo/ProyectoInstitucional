@@ -1,6 +1,6 @@
+import NavbarInstitucional from '../components/NavbarInstitucional';
 import React, { useState } from 'react';
 import db from '../data/db';
-import NavbarInstitucional from '../components/NavbarInstitucional';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import ModalEditarPerfil from '../components/ModalEditarPerfil';
 import { useNavigate } from 'react-router-dom';
@@ -80,10 +80,14 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 100px',
+            padding: '0',
             boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-            marginTop: '70px',
-            width: '100%',
+            marginTop: '0',
+            width: '100vw',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            zIndex: 1000,
           }}
         >
           <NavbarInstitucional />
@@ -129,22 +133,7 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
                       padding: '10px',
                       borderRadius: '5px',
                     }}
-                    onClick={() => navigate('/planilla-alumnos')}
-                  >
-                    Gestión Alumnos
-                  </Button>
-                </li>
-                <li style={{ marginBottom: '30px' }}>
-                  <Button
-                    variant="link"
-                    style={{
-                      color: '#ffffff',
-                      textDecoration: 'none',
-                      backgroundColor: '#007bff',
-                      padding: '10px',
-                      borderRadius: '5px',
-                    }}
-                    onClick={() => navigate('/planilla-docentes')}
+                    onClick={() => navigate('/gestion-docentes')}
                   >
                     Gestión Personal Docentes
                   </Button>
@@ -159,7 +148,7 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
                       padding: '10px',
                       borderRadius: '5px',
                     }}
-                    onClick={() => navigate('/planilla-no-docentes')}
+                    onClick={() => navigate('/gestion-no-docente')}
                   >
                     Gestión Personal no Docente
                   </Button>
@@ -218,6 +207,15 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
                   <p style={{ marginBottom: 0, color: '#003366' }}>
                     Con tu Rol de: <strong style={{ fontSize: '1.15em' }}>{defaultRol}</strong>
                   </p>
+                  <h4 style={{
+                    margin: '0px 0 0 70%',
+                    color: '#222',
+                    fontWeight: 700,
+                    fontSize: '2.2em',
+                    transform: 'translateX(-50%)',
+                    width: 'max-content',
+                    textAlign: 'center',
+                  }}>Gestión de Alumnos</h4>
                 </Col>
                 <Col md={4} className="mb-4 d-flex justify-content-end gap-3">
                   <Button

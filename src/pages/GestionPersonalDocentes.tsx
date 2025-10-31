@@ -39,8 +39,36 @@ const GestionPersonalDocentes: React.FC = () => {
   return (
     <>
       <NavbarInstitucional />
-      <div style={{ padding: "2rem", marginTop: "6rem" }}>
-        <h1 style={{ textAlign: 'center', marginTop: '0' }}>Gestión de Personal Docente</h1>
+      <div style={{ padding: "2rem", marginTop: "6rem", position: 'relative' }}>
+        {/* Botón volver */}
+        <button
+          onClick={() => window.history.back()}
+          style={{
+            position: 'absolute',
+            top: 0,
+            marginTop: '-85px',
+            left: 10,
+            background: '#1976d2',
+            border: 'none',
+            borderRadius: '50%',
+            width: 54,
+            height: 54,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.10)',
+            cursor: 'pointer',
+            zIndex: 10,
+            transition: 'background 0.2s',
+            padding: 0
+          }}
+          title="Volver"
+        >
+          <span style={{ fontSize: 24, color: '#fff', fontWeight: 700, lineHeight: 1 }}>&larr;</span>
+          <span style={{ fontSize: 10, color: '#fff', fontWeight: 500, marginTop: 2 }}>Volver</span>
+        </button>
+  <h1 style={{ textAlign: 'center', marginTop: '-110px', marginBottom: '120px' }}>Gestión de Personal Docente</h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center', marginTop: '3rem' }}>
           <button
             style={{

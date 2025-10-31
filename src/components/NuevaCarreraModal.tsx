@@ -8,7 +8,7 @@ interface MateriaConfig {
   docenteId?: number | null;
 }
 
-interface AnioConfig {
+export interface AnioConfig {
   materias: MateriaConfig[];
 }
 
@@ -78,8 +78,15 @@ const NuevaCarreraModal: React.FC<NuevaCarreraModalProps> = ({ show, onHide, onS
     setAnios(nuevosAnios);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const data: NuevaCarreraData = { nombre, turno, cantidadAnios, anios };
+    // Guardar en Dexie.js
+    await db.table('carreras').add({
+      nombre,
+      turno,
+      cantidadAnios,
+      anios
+    });
     onSubmit(data);
     onHide();
   };

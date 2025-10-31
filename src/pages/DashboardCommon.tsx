@@ -1,5 +1,8 @@
+// ...existing code...
 import NavbarInstitucional from '../components/NavbarInstitucional';
-import React, { useState } from 'react';
+import ModalVerCarrera from '../components/ModalVerCarrera';
+import type { Carrera } from '../pages/GestionCarreras';
+import React, { useState, useEffect } from 'react';
 import type { NuevoDocenteData } from '../components/NuevoDocenteModal';
 import type { NuevoNoDocenteData } from '../components/NuevoNoDocenteModal';
 import db from '../data/db';
@@ -7,18 +10,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import ModalEditarPerfil from '../components/ModalEditarPerfil';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
-import materiasNotas from '../data/materiasNotas.json';
-
-// Tipos para materiasNotas
-type Materia = {
-  nombre: string;
-};
-
-type CarreraMateria = {
-  carrera: string;
-  anio: number;
-  materias: Materia[];
-};
+// Removed unused imports and types
 
 // Extiende el tipo de usuario para profesores
 interface UsuarioProfesor {
@@ -60,23 +52,336 @@ interface DashboardCommonProps {
 const defaultData = {
   nombre: 'Usuario',
   carreras: [
-    { nombre: 'Diseño Gráfico' },
-    { nombre: 'Hotelería' },
-    { nombre: 'Marketing y Negocios Digitales' },
-    { nombre: 'Programación Full Stack' },
-    { nombre: 'Biología' },
-    { nombre: 'Licenciatura en Administración de Empresas' },
-    { nombre: 'Licenciatura en Turismo' },
+    {
+      id: 1,
+      nombre: 'Diseño Gráfico',
+      cantidadAnios: 4,
+      anios: [
+        { materias: [
+          { nombre: 'Historia del Arte', modulosMensuales: 4, docenteId: 1, diasHorarios: [] },
+          { nombre: 'Diseño I', modulosMensuales: 4, docenteId: 2, diasHorarios: [] },
+          { nombre: 'Matemática', modulosMensuales: 3, docenteId: 3, diasHorarios: [] },
+          { nombre: 'Comunicación Visual', modulosMensuales: 2, docenteId: 4, diasHorarios: [] },
+          { nombre: 'Taller de Creatividad', modulosMensuales: 2, docenteId: 5, diasHorarios: [] }
+        ] },
+        { materias: [
+          { nombre: 'Diseño II', modulosMensuales: 4, docenteId: 2, diasHorarios: [] },
+          { nombre: 'Fotografía', modulosMensuales: 3, docenteId: 6, diasHorarios: [] },
+          { nombre: 'Tipografía', modulosMensuales: 2, docenteId: 7, diasHorarios: [] },
+          { nombre: 'Historia del Diseño', modulosMensuales: 2, docenteId: 1, diasHorarios: [] },
+          { nombre: 'Taller de Color', modulosMensuales: 2, docenteId: 8, diasHorarios: [] }
+        ] },
+        { materias: [
+          { nombre: 'Diseño III', modulosMensuales: 4, docenteId: 2, diasHorarios: [] },
+          { nombre: 'Publicidad', modulosMensuales: 3, docenteId: 9, diasHorarios: [] },
+          { nombre: 'Animación Digital', modulosMensuales: 2, docenteId: 10, diasHorarios: [] },
+          { nombre: 'Gestión de Proyectos', modulosMensuales: 2, docenteId: 11, diasHorarios: [] },
+          { nombre: 'Taller de Branding', modulosMensuales: 2, docenteId: 12, diasHorarios: [] }
+        ] },
+        { materias: [
+          { nombre: 'Diseño IV', modulosMensuales: 4, docenteId: 2, diasHorarios: [] },
+          { nombre: 'Packaging', modulosMensuales: 3, docenteId: 13, diasHorarios: [] },
+          { nombre: 'Diseño Web', modulosMensuales: 2, docenteId: 14, diasHorarios: [] },
+          { nombre: 'Ética Profesional', modulosMensuales: 2, docenteId: 15, diasHorarios: [] },
+          { nombre: 'Taller Final', modulosMensuales: 2, docenteId: 16, diasHorarios: [] }
+        ] }
+      ]
+    },
+    {
+      id: 2,
+      nombre: 'Hotelería',
+      cantidadAnios: 4,
+      anios: [
+        { materias: [
+         { nombre: 'Introducción a la Hotelería', modulosMensuales: 3, docenteId: 17, diasHorarios: [] },
+         { nombre: 'Matemática', modulosMensuales: 2, docenteId: 3, diasHorarios: [] },
+         { nombre: 'Comunicación Oral y Escrita', modulosMensuales: 2, docenteId: 18, diasHorarios: [] },
+         { nombre: 'Inglés I', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Taller de Recepción', modulosMensuales: 2, docenteId: 20, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Gestión Hotelera', modulosMensuales: 3, docenteId: 17, diasHorarios: [] },
+         { nombre: 'Inglés II', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Contabilidad', modulosMensuales: 2, docenteId: 21, diasHorarios: [] },
+         { nombre: 'Marketing Turístico', modulosMensuales: 2, docenteId: 22, diasHorarios: [] },
+         { nombre: 'Taller de Reservas', modulosMensuales: 2, docenteId: 23, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Legislación Hotelera', modulosMensuales: 3, docenteId: 24, diasHorarios: [] },
+         { nombre: 'Inglés III', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Gestión de Eventos', modulosMensuales: 2, docenteId: 25, diasHorarios: [] },
+         { nombre: 'Taller de Housekeeping', modulosMensuales: 2, docenteId: 26, diasHorarios: [] },
+         { nombre: 'Recursos Humanos', modulosMensuales: 2, docenteId: 27, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Práctica Profesional', modulosMensuales: 3, docenteId: 28, diasHorarios: [] },
+         { nombre: 'Inglés IV', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Gestión de Calidad', modulosMensuales: 2, docenteId: 29, diasHorarios: [] },
+         { nombre: 'Taller Final', modulosMensuales: 2, docenteId: 30, diasHorarios: [] },
+         { nombre: 'Ética Profesional', modulosMensuales: 2, docenteId: 15, diasHorarios: [] },
+        ] },
+      ]
+    },
+    {
+      id: 3,
+      nombre: 'Marketing y Negocios Digitales',
+      cantidadAnios: 4,
+      anios: [
+        { materias: [
+         { nombre: 'Introducción al Marketing', modulosMensuales: 3, docenteId: 31, diasHorarios: [] },
+         { nombre: 'Matemática', modulosMensuales: 2, docenteId: 3, diasHorarios: [] },
+         { nombre: 'Comunicación Digital', modulosMensuales: 2, docenteId: 32, diasHorarios: [] },
+         { nombre: 'Inglés I', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Taller de Creatividad', modulosMensuales: 2, docenteId: 5, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Publicidad Online', modulosMensuales: 3, docenteId: 33, diasHorarios: [] },
+         { nombre: 'Inglés II', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'E-commerce', modulosMensuales: 2, docenteId: 34, diasHorarios: [] },
+         { nombre: 'SEO y SEM', modulosMensuales: 2, docenteId: 35, diasHorarios: [] },
+         { nombre: 'Taller de Campañas', modulosMensuales: 2, docenteId: 36, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Analítica Web', modulosMensuales: 3, docenteId: 37, diasHorarios: [] },
+         { nombre: 'Inglés III', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Gestión de Redes Sociales', modulosMensuales: 2, docenteId: 38, diasHorarios: [] },
+         { nombre: 'Taller de Branding', modulosMensuales: 2, docenteId: 12, diasHorarios: [] },
+         { nombre: 'Gestión de Proyectos', modulosMensuales: 2, docenteId: 11, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Práctica Profesional', modulosMensuales: 3, docenteId: 39, diasHorarios: [] },
+         { nombre: 'Inglés IV', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Gestión de Crisis', modulosMensuales: 2, docenteId: 40, diasHorarios: [] },
+         { nombre: 'Taller Final', modulosMensuales: 2, docenteId: 16, diasHorarios: [] },
+         { nombre: 'Ética Profesional', modulosMensuales: 2, docenteId: 15, diasHorarios: [] },
+        ] },
+      ]
+    },
+    {
+      id: 4,
+      nombre: 'Programación Full Stack',
+      cantidadAnios: 4,
+      anios: [
+        { materias: [
+         { nombre: 'Introducción a la Programación', modulosMensuales: 3, docenteId: 41, diasHorarios: [] },
+         { nombre: 'Matemática', modulosMensuales: 2, docenteId: 3, diasHorarios: [] },
+         { nombre: 'Algoritmos', modulosMensuales: 2, docenteId: 42, diasHorarios: [] },
+         { nombre: 'Inglés Técnico I', modulosMensuales: 2, docenteId: 43, diasHorarios: [] },
+         { nombre: 'Taller de Lógica', modulosMensuales: 2, docenteId: 44, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Programación I', modulosMensuales: 3, docenteId: 41, diasHorarios: [] },
+         { nombre: 'Inglés Técnico II', modulosMensuales: 2, docenteId: 43, diasHorarios: [] },
+         { nombre: 'Bases de Datos', modulosMensuales: 2, docenteId: 45, diasHorarios: [] },
+         { nombre: 'Desarrollo Web I', modulosMensuales: 2, docenteId: 46, diasHorarios: [] },
+         { nombre: 'Taller de Proyectos', modulosMensuales: 2, docenteId: 47, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Programación II', modulosMensuales: 3, docenteId: 41, diasHorarios: [] },
+         { nombre: 'Inglés Técnico III', modulosMensuales: 2, docenteId: 43, diasHorarios: [] },
+         { nombre: 'Desarrollo Web II', modulosMensuales: 2, docenteId: 46, diasHorarios: [] },
+         { nombre: 'Taller de Testing', modulosMensuales: 2, docenteId: 48, diasHorarios: [] },
+         { nombre: 'Gestión de Proyectos', modulosMensuales: 2, docenteId: 11, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Práctica Profesional', modulosMensuales: 3, docenteId: 49, diasHorarios: [] },
+         { nombre: 'Inglés Técnico IV', modulosMensuales: 2, docenteId: 43, diasHorarios: [] },
+         { nombre: 'Taller Final', modulosMensuales: 2, docenteId: 16, diasHorarios: [] },
+         { nombre: 'Ética Profesional', modulosMensuales: 2, docenteId: 15, diasHorarios: [] },
+         { nombre: 'Desarrollo Móvil', modulosMensuales: 2, docenteId: 50, diasHorarios: [] },
+        ] },
+      ]
+    },
+    {
+      id: 5,
+      nombre: 'Biología',
+      cantidadAnios: 4,
+      anios: [
+        { materias: [
+         { nombre: 'Biología General', modulosMensuales: 3, docenteId: 51, diasHorarios: [] },
+         { nombre: 'Matemática', modulosMensuales: 2, docenteId: 3, diasHorarios: [] },
+         { nombre: 'Química', modulosMensuales: 2, docenteId: 52, diasHorarios: [] },
+         { nombre: 'Inglés I', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Taller de Laboratorio', modulosMensuales: 2, docenteId: 53, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Biología Celular', modulosMensuales: 3, docenteId: 54, diasHorarios: [] },
+         { nombre: 'Inglés II', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Física', modulosMensuales: 2, docenteId: 55, diasHorarios: [] },
+         { nombre: 'Taller de Genética', modulosMensuales: 2, docenteId: 56, diasHorarios: [] },
+         { nombre: 'Química Orgánica', modulosMensuales: 2, docenteId: 57, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Biología Molecular', modulosMensuales: 3, docenteId: 58, diasHorarios: [] },
+         { nombre: 'Inglés III', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Ecología', modulosMensuales: 2, docenteId: 59, diasHorarios: [] },
+         { nombre: 'Taller de Microbiología', modulosMensuales: 2, docenteId: 60, diasHorarios: [] },
+         { nombre: 'Fisiología', modulosMensuales: 2, docenteId: 61, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Práctica Profesional', modulosMensuales: 3, docenteId: 62, diasHorarios: [] },
+         { nombre: 'Inglés IV', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Taller Final', modulosMensuales: 2, docenteId: 16, diasHorarios: [] },
+         { nombre: 'Ética Profesional', modulosMensuales: 2, docenteId: 15, diasHorarios: [] },
+         { nombre: 'Genética Humana', modulosMensuales: 2, docenteId: 63, diasHorarios: [] },
+        ] },
+      ]
+    },
+    {
+      id: 6,
+      nombre: 'Licenciatura en Administración de Empresas',
+      cantidadAnios: 4,
+      anios: [
+        { materias: [
+         { nombre: 'Introducción a la Administración', modulosMensuales: 3, docenteId: 64, diasHorarios: [] },
+         { nombre: 'Matemática', modulosMensuales: 2, docenteId: 3, diasHorarios: [] },
+         { nombre: 'Contabilidad I', modulosMensuales: 2, docenteId: 21, diasHorarios: [] },
+         { nombre: 'Inglés I', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Taller de Liderazgo', modulosMensuales: 2, docenteId: 65, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Administración II', modulosMensuales: 3, docenteId: 64, diasHorarios: [] },
+         { nombre: 'Inglés II', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Contabilidad II', modulosMensuales: 2, docenteId: 21, diasHorarios: [] },
+         { nombre: 'Marketing', modulosMensuales: 2, docenteId: 31, diasHorarios: [] },
+         { nombre: 'Taller de Negociación', modulosMensuales: 2, docenteId: 66, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Administración III', modulosMensuales: 3, docenteId: 64, diasHorarios: [] },
+         { nombre: 'Inglés III', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Gestión de Recursos Humanos', modulosMensuales: 2, docenteId: 27, diasHorarios: [] },
+         { nombre: 'Taller de Proyectos', modulosMensuales: 2, docenteId: 47, diasHorarios: [] },
+         { nombre: 'Gestión Financiera', modulosMensuales: 2, docenteId: 67, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Práctica Profesional', modulosMensuales: 3, docenteId: 68, diasHorarios: [] },
+         { nombre: 'Inglés IV', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Taller Final', modulosMensuales: 2, docenteId: 16, diasHorarios: [] },
+         { nombre: 'Ética Profesional', modulosMensuales: 2, docenteId: 15, diasHorarios: [] },
+         { nombre: 'Gestión de Empresas', modulosMensuales: 2, docenteId: 69, diasHorarios: [] },
+        ] },
+      ]
+    },
+    {
+      id: 7,
+      nombre: 'Licenciatura en Turismo',
+      cantidadAnios: 4,
+      anios: [
+        { materias: [
+         { nombre: 'Introducción al Turismo', modulosMensuales: 3, docenteId: 70, diasHorarios: [] },
+         { nombre: 'Matemática', modulosMensuales: 2, docenteId: 3, diasHorarios: [] },
+         { nombre: 'Geografía Turística', modulosMensuales: 2, docenteId: 71, diasHorarios: [] },
+         { nombre: 'Inglés I', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Taller de Recepción', modulosMensuales: 2, docenteId: 20, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Gestión Turística', modulosMensuales: 3, docenteId: 70, diasHorarios: [] },
+         { nombre: 'Inglés II', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Marketing Turístico', modulosMensuales: 2, docenteId: 22, diasHorarios: [] },
+         { nombre: 'Taller de Reservas', modulosMensuales: 2, docenteId: 23, diasHorarios: [] },
+         { nombre: 'Geografía Argentina', modulosMensuales: 2, docenteId: 72, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Legislación Turística', modulosMensuales: 3, docenteId: 73, diasHorarios: [] },
+         { nombre: 'Inglés III', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Gestión de Eventos', modulosMensuales: 2, docenteId: 25, diasHorarios: [] },
+         { nombre: 'Taller de Housekeeping', modulosMensuales: 2, docenteId: 26, diasHorarios: [] },
+         { nombre: 'Geografía Mundial', modulosMensuales: 2, docenteId: 74, diasHorarios: [] },
+        ] },
+        { materias: [
+         { nombre: 'Práctica Profesional', modulosMensuales: 3, docenteId: 75, diasHorarios: [] },
+         { nombre: 'Inglés IV', modulosMensuales: 2, docenteId: 19, diasHorarios: [] },
+         { nombre: 'Taller Final', modulosMensuales: 2, docenteId: 16, diasHorarios: [] },
+         { nombre: 'Ética Profesional', modulosMensuales: 2, docenteId: 15, diasHorarios: [] },
+         { nombre: 'Gestión de Destinos', modulosMensuales: 2, docenteId: 76, diasHorarios: [] },
+        ] },
+      ]
+    },
   ],
 };
 
 const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usuario', defaultRol = 'Usuario' }) => {
+  // Normaliza las carreras de ejemplo para que todas las materias tengan diasHorarios: []
+  const carrerasEjemploNormalizadas = defaultData.carreras.map(carrera => ({
+    ...carrera,
+    id: typeof carrera.id !== 'undefined' ? carrera.id : Math.random(), // id ficticio para carreras de ejemplo
+    anios: (carrera.anios || Array.from({ length: carrera.cantidadAnios || 4 }, () => ({ materias: [] })))
+      .map(anio => ({
+        materias: (anio.materias || []).map(m => ({
+          ...m,
+          diasHorarios: Array.isArray(m.diasHorarios) ? m.diasHorarios : []
+        }))
+      }))
+  }));
+  // Corrección automática de cantidadAnios en carreras
+  useEffect(() => {
+    const fixCarrerasAnios = async () => {
+      const carreras = await db.table('carreras').toArray();
+      for (const carrera of carreras) {
+        if (!carrera.cantidadAnios || carrera.cantidadAnios < 4) {
+          await db.table('carreras').update(carrera.id, { cantidadAnios: 4 });
+        }
+      }
+    };
+    fixCarrerasAnios();
+  }, []);
+  // ...existing code...
+  // Guardar cambios de edición de carrera
+  // Recibe NuevaCarreraData y adapta el id
+
+  // Confirmar eliminación de carrera
+  const confirmarEliminarCarrera = async () => {
+    if (!carreraEliminando) return;
+    await db.table('carreras').delete(carreraEliminando.id);
+    setMensajeCarrera('Carrera eliminada correctamente.');
+    setShowConfirmEliminar(false);
+    setCarreraEliminando(null);
+    setTimeout(() => setMensajeCarrera(''), 2500);
+  };
   const [showListaDocentes, setShowListaDocentes] = useState(false);
   const [showListaNoDocentes, setShowListaNoDocentes] = useState(false);
   const [docentes, setDocentes] = useState<NuevoDocenteData[]>([]);
   const [noDocentes, setNoDocentes] = useState<NuevoNoDocenteData[]>([]);
+  const [carreras, setCarreras] = useState<Carrera[]>([]);
+  const [showNuevaCarrera, setShowNuevaCarrera] = useState(false);
+  const [loadingCarreras, setLoadingCarreras] = useState(true);
+  const [showEditarCarrera, setShowEditarCarrera] = useState(false);
+  const [carreraEditando, setCarreraEditando] = useState<Carrera | null>(null);
+  const [showConfirmEliminar, setShowConfirmEliminar] = useState(false);
+  const [carreraEliminando, setCarreraEliminando] = useState<Carrera | null>(null);
+  const [mensajeCarrera, setMensajeCarrera] = useState<string>("");
   const { user } = useAuth() as { user: Usuario | null };
   const navigate = useNavigate();
+  // Cargar carreras reales desde Dexie.js
+  useEffect(() => {
+    const cargar = async () => {
+      setLoadingCarreras(true);
+      const lista = await db.table("carreras").toArray();
+      setCarreras(lista as Carrera[]);
+      setLoadingCarreras(false);
+    };
+    cargar();
+  }, [showEditarCarrera, showConfirmEliminar, showNuevaCarrera]);
+  // Función para agregar una carrera nueva y persistirla
+  const handleAgregarCarrera = async (nuevaCarrera: Carrera) => {
+    // Generar id único
+    const id = Date.now();
+    await db.table('carreras').add({ ...nuevaCarrera, id });
+    setMensajeCarrera('Carrera agregada correctamente.');
+    setShowNuevaCarrera(false);
+    setTimeout(() => setMensajeCarrera(''), 2500);
+  };
+  // Función para editar carrera
+  const handleEditarCarrera = (carrera: Carrera) => {
+    setCarreraEditando(carrera);
+    setShowEditarCarrera(true);
+  };
+
+  // Función para eliminar carrera (mostrar confirmación)
+  const handleEliminarCarrera = (carrera: Carrera) => {
+    setCarreraEliminando(carrera);
+    setShowConfirmEliminar(true);
+  };
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [profilePic, setProfilePic] = useState<string | null>(null);
@@ -105,25 +410,16 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
   }
 
   // Filtrado para docentes
-  let materiasFiltradas: CarreraMateria[] = [];
-  if (user?.rol === 'Profesor' && 'materia' in user && user.materia) {
-    // Filtrar y eliminar duplicados por carrera y año
-    const rawFiltradas = (materiasNotas as CarreraMateria[])
-      .map(carrera => ({
-        carrera: carrera.carrera,
-        anio: carrera.anio,
-        materias: carrera.materias.filter((m: Materia) => m.nombre === user.materia)
-      }))
-      .filter(c => c.materias.length > 0);
+  // Eliminado materiasFiltradas: variable no usada
 
-    // Eliminar duplicados por carrera y año
-    const unique: { [key: string]: CarreraMateria } = {};
-    rawFiltradas.forEach(c => {
-      const key = `${c.carrera}-${c.anio}`;
-      if (!unique[key]) unique[key] = c;
-    });
-    materiasFiltradas = Object.values(unique);
-  }
+  // Estado para modal ver carrera
+  const [showVerCarrera, setShowVerCarrera] = useState(false);
+  const [carreraSeleccionada, setCarreraSeleccionada] = useState<Carrera | null>(null);
+
+  const handleVerCarrera = (carrera: Carrera) => {
+    setCarreraSeleccionada(carrera);
+    setShowVerCarrera(true);
+  };
 
   return (
     <>
@@ -221,7 +517,7 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
                     }}
                     onClick={() => navigate('/otras-gestiones')}
                   >
-                    Otras Gestiones
+                    Agregar Carreras y otras Gestiones
                   </Button>
                 </li>
                 <li style={{ marginBottom: '30px' }}>
@@ -378,51 +674,90 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
                 </Col>
               </Row>
               <Row>
-                {(user?.rol === 'Profesor' && materiasFiltradas.length > 0)
-                  ? materiasFiltradas.map((carrera, idx) => (
-                      <Col md={4} key={idx} className="mb-4">
-                        <Card className="card" style={{ borderColor: '#003366', transform: 'scale(0.8)' }}>
-                          <Card.Header style={{ backgroundColor: '#00509e', color: '#ffffff' }}>{carrera.carrera}</Card.Header>
-                          <Card.Body style={{ height: '150px' }}>
-                            <div className="row">
-                              <div className="col-12 mb-2">
+                {/* Renderizar carreras reales con botones Ver, Editar y Eliminar */}
+                {mensajeCarrera && (
+                  <div style={{ textAlign: 'center', color: '#1976d2', fontWeight: 600, marginBottom: 16 }}>{mensajeCarrera}</div>
+                )}
+                {loadingCarreras ? (
+                  <div style={{ textAlign: "center", marginTop: 40 }}><span>Cargando carreras...</span></div>
+                ) : (
+                  [...carreras, ...carrerasEjemploNormalizadas].map((carrera, idx) => (
+                    <Col md={4} key={carrera.id || idx} className="mb-4">
+                      <Card className="card" style={{ borderColor: '#003366' }}>
+                        <Card.Header style={{ backgroundColor: '#00509e', color: '#ffffff', paddingRight: 8 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                            <span>{carrera.nombre}</span>
+                          </div>
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', marginTop: 8 }}>
+                            <Button variant="info" size="sm" style={{ borderRadius: 6, fontSize: '0.72em', padding: '1px 6px', minWidth: 0, lineHeight: 1, width: '100%' }} onClick={() => handleVerCarrera({ ...carrera, id: carrera.id })}>Ver</Button>
+                            <Button variant="primary" size="sm" style={{ borderRadius: 6, fontSize: '0.72em', padding: '1px 6px', minWidth: 0, lineHeight: 1, width: '100%' }} onClick={() => handleEditarCarrera({ ...carrera, id: carrera.id })}>Editar</Button>
+                            <Button variant="danger" size="sm" style={{ borderRadius: 6, fontSize: '0.72em', padding: '1px 6px', minWidth: 0, lineHeight: 1, width: '100%' }} onClick={() => handleEliminarCarrera({ ...carrera, id: carrera.id })}>Eliminar</Button>
+                            <div></div>
+                          </div>
+                        </Card.Header>
+                        <Card.Body style={{ minHeight: '150px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                          <div className="row">
+                            <div className="col-12 mb-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                              {Array.from({ length: carrera.cantidadAnios || 4 }).map((_, i) => (
                                 <Button
+                                  key={i}
                                   className="btn-anio"
                                   variant="outline-primary"
-                                  style={{ borderColor: '#00509e', color: '#00509e', whiteSpace: 'nowrap' }}
-                                  onClick={() => handleAnioClick(carrera.carrera, carrera.anio)}
+                                  style={{ borderColor: '#00509e', color: '#00509e', whiteSpace: 'nowrap', borderRadius: 12, minWidth: 80, fontSize: '0.95em', padding: '2px 10px', width: '100%' }}
+                                  onClick={() => handleAnioClick(carrera.nombre, i + 1)}
                                 >
-                                  {carrera.anio}° Año - {carrera.materias.map(m => m.nombre).join(', ')}
+                                  {i + 1}° Año
                                 </Button>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))
-                  : defaultData.carreras.map((carrera, idx) => (
-                      <Col md={4} key={idx} className="mb-4">
-                        <Card className="card" style={{ borderColor: '#003366', transform: 'scale(0.8)' }}>
-                          <Card.Header style={{ backgroundColor: '#00509e', color: '#ffffff' }}>{carrera.nombre}</Card.Header>
-                          <Card.Body style={{ height: '150px' }}>
-                            <div className="row">
-                              {[1, 2, 3, 4].map((anio, index) => (
-                                <div key={index} className="col-6 mb-2">
-                                  <Button
-                                    className="btn-anio"
-                                    variant="outline-primary"
-                                    style={{ borderColor: '#00509e', color: '#00509e', whiteSpace: 'nowrap' }}
-                                    onClick={() => handleAnioClick(carrera.nombre, anio)}
-                                  >
-                                    {anio}° Año
-                                  </Button>
-                                </div>
                               ))}
                             </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))}
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))
+                )}
+      {/* Botón para agregar carrera nueva */}
+      <div style={{ textAlign: 'center', margin: '24px 0' }}>
+        <Button variant="success" style={{ borderRadius: 16, fontWeight: 600, fontSize: '1.1em', padding: '8px 24px' }} onClick={() => setShowNuevaCarrera(true)}>
+          Agregar nueva carrera
+        </Button>
+      </div>
+      {/* Modal para agregar carrera nueva */}
+      {showNuevaCarrera && (
+        <ModalVerCarrera
+          show={showNuevaCarrera}
+          onHide={() => setShowNuevaCarrera(false)}
+          carrera={{ id: Date.now(), nombre: '', cantidadAnios: 4, anios: Array.from({ length: 4 }, () => ({ materias: [] })) }}
+          editable={true}
+          onSave={handleAgregarCarrera}
+        />
+      )}
+      {/* Modal de edición de carrera */}
+      {/* Modal planilla editable solo para flujo visual */}
+      {showEditarCarrera && (
+        <ModalVerCarrera
+          show={showEditarCarrera}
+          onHide={() => { setShowEditarCarrera(false); setCarreraEditando(null); }}
+          carrera={carreraEditando}
+          editable={true}
+        />
+      )}
+
+      {/* Modal de confirmación de eliminación */}
+      {showConfirmEliminar && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.18)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: 'linear-gradient(120deg, #f0f8ff 60%, #e3eefe 100%)', borderRadius: 18, width: '400px', maxWidth: '95vw', padding: '32px 36px 18px 36px', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
+            <h4 style={{ fontWeight: 700, color: '#00509e', fontSize: 20, marginBottom: 18 }}>¿Eliminar carrera?</h4>
+            <div style={{ color: '#222', fontWeight: 500, marginBottom: 24 }}>
+              ¿Está seguro que desea eliminar la carrera <span style={{ color: '#00509e', fontWeight: 700 }}>{carreraEliminando?.nombre}</span>?
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
+              <Button variant="secondary" onClick={() => { setShowConfirmEliminar(false); setCarreraEliminando(null); }} style={{ borderRadius: 16 }}>Cancelar</Button>
+              <Button variant="danger" onClick={confirmarEliminarCarrera} style={{ borderRadius: 16 }}>Eliminar</Button>
+            </div>
+          </div>
+        </div>
+      )}
               </Row>
             </Container>
           </div>
@@ -435,6 +770,7 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
         datos={datosPerfil}
         onSave={handleSavePerfil}
       />
+      <ModalVerCarrera show={showVerCarrera} onHide={() => setShowVerCarrera(false)} carrera={carreraSeleccionada} />
     </>
   );
 };

@@ -1,0 +1,30 @@
+[
+  {
+    "nombre": "Cristina Batista",
+    "dni": "11112222",
+    "sector": "Dirección",
+    "telefono": "",
+    "mail": ""
+  },
+  {
+    "nombre": "Esmeralda Nieves",
+    "dni": "33334444",
+    "sector": "Secretaría",
+    "telefono": "",
+    "mail": ""
+  },
+  {
+    "nombre": "Carlos López",
+    "dni": "11223344",
+    "sector": "Administración",
+    "telefono": "",
+    "mail": ""
+  },
+  {
+    "nombre": "Marta Ruiz",
+    "dni": "44332211",
+    "sector": "Mantenimiento",
+    "telefono": "",
+    "mail": ""
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "nombre": "Narciso Perez",
+    "dni": "12345678",
+    "materia": "Matemática",
+    "telefono": "",
+    "mail": ""
+  },
+  {
+    "nombre": "Laura Gómez",
+    "dni": "87654321",
+    "materia": "Lengua",
+    "telefono": "",
+    "mail": ""
+  }
+]

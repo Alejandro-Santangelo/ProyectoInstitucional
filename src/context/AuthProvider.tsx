@@ -1,48 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import type { ReactNode } from 'react'
 import { AuthContext } from './authStore'
-import type { AuthUserExtended } from './authStore'
-import { USERS } from '../data/users'
-import personalDocentes from '../../public/data/personalDocentes.json';
+import type { AuthUserExtended, AuthContextType } from './authStore'
+// import { USERS } from '../data/users' // Eliminado porque no se usa
+import db from '../data/db';
+import personalDocentes from '../data/personalDocentes.json';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AuthUserExtended>(null)
-  const [remoteUsers, setRemoteUsers] = useState<typeof USERS | null>(null)
 
-  useEffect(() => {
-    // Intentar cargar el JSON editable desde public/data/usuarios.json
-    fetch('/data/usuarios.json')
-      .then(r => {
-        if (!r.ok) throw new Error('no data')
-        return r.json()
-      })
-      .then((data) => setRemoteUsers(data as typeof USERS))
-      .catch(() => setRemoteUsers(USERS))
-  }, [])
-
-  const login = (username: string, password: string) => {
-    const db = remoteUsers && remoteUsers.length ? remoteUsers : USERS;
-    const match = db.find(u => u.username === username && u.password === password);
-    if (!match) return { ok: false, message: 'Credenciales inválidas' };
-    const genero = (match as { genero?: 'M'|'F'|'O' }).genero;
-
-    // Si es profesor, buscar la materia en personalDocentes.json
+    // Eliminado código de remoteUsers, ya no se usa
+  
+  const login: AuthContextType["login"] = async (username: string, password: string) => {
+    const dbUser = await db.table('usuarios').where('username').equals(username).first();
+    if (!dbUser || dbUser.password !== password) {
+      return { ok: false, message: 'Credenciales inválidas' };
+    }
+    const genero = dbUser.genero;
     let materia: string | undefined = undefined;
-    if (match.rol === 'Profesor') {
-      const docente = (personalDocentes as Array<{ nombre: string; materia: string }>).find(d => d.nombre === match.nombre);
+    if (dbUser.rol === 'Profesor') {
+      const docente = (personalDocentes as Array<{ nombre: string; materia: string }>).find(d => d.nombre === dbUser.nombre);
       if (docente) materia = docente.materia;
     }
-
     const authUser: AuthUserExtended & { materia?: string } = {
-      nombre: match.nombre,
-      username: match.username,
-      rol: match.rol,
-      route: match.route,
+      nombre: dbUser.nombre,
+      username: dbUser.username,
+      rol: dbUser.rol,
+      route: dbUser.route,
       genero,
       ...(materia ? { materia } : {})
     };
     setUser(authUser);
-    return { ok: true, route: match.route };
+    return { ok: true, route: dbUser.route };
   }
 
   const logout = () => setUser(null)

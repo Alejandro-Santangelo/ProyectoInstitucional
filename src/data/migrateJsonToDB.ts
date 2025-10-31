@@ -1,9 +1,9 @@
 import db from './db';
 
-import alumnosJson from '../../public/data/alumnos.json';
-import personalDocentesJson from '../../public/data/personalDocentes.json';
-import personalNoDocentesJson from '../../public/data/personalNoDocentes.json';
-import usuariosJson from '../../public/data/usuarios.json';
+import alumnosJson from '../data/alumnos.json';
+import personalDocentesJson from '../data/personalDocentes.json';
+import personalNoDocentesJson from '../data/personalNoDocentes.json';
+import usuariosJson from '../data/usuarios.json';
 
 export async function migrateJsonToDB() {
   // Eliminar el chequeo de migración para que siempre actualice los datos

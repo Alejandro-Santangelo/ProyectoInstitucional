@@ -1,0 +1,62 @@
+[
+  {
+    "idAlumno": 1,
+    "nombre": "Ana",
+    "apellido": "García",
+    "matricula": "2023-001",
+    "dni": "40123456",
+    "cuil": "20-40123456-3",
+    "email": "ana.garcia@mail.com",
+    "edad": 20,
+    "direccion": "Calle Falsa 123",
+    "localidad": "Capilla del Monte",
+    "telefono": "3548-123456",
+    "estado": "Activo",
+    "observaciones": "Sin observaciones"
+  },
+  {
+    "idAlumno": 2,
+    "nombre": "Luis",
+    "apellido": "Pérez",
+    "matricula": "2023-002",
+    "dni": "40123457",
+    "cuil": "20-40123457-3",
+    "email": "luis.perez@mail.com",
+    "edad": 22,
+    "direccion": "Av. Principal 456",
+    "localidad": "Capilla del Monte",
+    "telefono": "3548-654321",
+    "estado": "Activo",
+    "observaciones": "Becado"
+  },
+  {
+    "idAlumno": 3,
+    "nombre": "María",
+    "apellido": "López",
+    "matricula": "2023-003",
+    "dni": "40123458",
+    "cuil": "20-40123458-3",
+    "email": "maria.lopez@mail.com",
+    "edad": 21,
+    "direccion": "Calle 9 de Julio 789",
+    "localidad": "Capilla del Monte",
+    "telefono": "3548-789123",
+    "estado": "Activo",
+    "observaciones": "Sin observaciones"
+  },
+  {
+    "idAlumno": 4,
+    "nombre": "Jorge",
+    "apellido": "Martínez",
+    "matricula": "2023-004",
+    "dni": "40123459",
+    "cuil": "20-40123459-3",
+    "email": "jorge.martinez@mail.com",
+    "edad": 23,
+    "direccion": "Av. San Martín 321",
+    "localidad": "Capilla del Monte",
+    "telefono": "3548-321654",
+    "estado": "Activo",
+    "observaciones": "Sin observaciones"
+  }
+]

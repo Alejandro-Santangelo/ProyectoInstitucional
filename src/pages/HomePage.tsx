@@ -11,7 +11,7 @@ function HomePage() {
   const [error, setError] = useState<string>('')
   const { login } = useAuth()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Validación simple: requerir ambos campos
     if (!usuario.trim() || !password.trim()) {
@@ -19,7 +19,7 @@ function HomePage() {
       return
     }
     setError('')
-    const res = login(usuario, password)
+    const res = await login(usuario, password)
     if (!res.ok) {
       setError(res.message || 'Credenciales inválidas')
       return

@@ -18,7 +18,7 @@ export type AuthUserExtended = {
 
 export type AuthContextType = {
   user: AuthUserExtended
-  login: (username: string, password: string) => { ok: boolean; message?: string; route?: string }
+  login: (username: string, password: string) => Promise<{ ok: boolean; message?: string; route?: string }>
   logout: () => void
 }
 

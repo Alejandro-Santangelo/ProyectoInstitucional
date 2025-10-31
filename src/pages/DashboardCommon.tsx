@@ -5,7 +5,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import ModalEditarPerfil from '../components/ModalEditarPerfil';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
-import materiasNotas from '../../public/data/materiasNotas.json'; // Ajusta la ruta si es necesario
+import materiasNotas from '../data/materiasNotas.json';
 
 // Tipos para materiasNotas
 type Materia = {

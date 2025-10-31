@@ -1,5 +1,7 @@
 import NavbarInstitucional from '../components/NavbarInstitucional';
 import React, { useState } from 'react';
+import type { NuevoDocenteData } from '../components/NuevoDocenteModal';
+import type { NuevoNoDocenteData } from '../components/NuevoNoDocenteModal';
 import db from '../data/db';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import ModalEditarPerfil from '../components/ModalEditarPerfil';
@@ -69,6 +71,10 @@ const defaultData = {
 };
 
 const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usuario', defaultRol = 'Usuario' }) => {
+  const [showListaDocentes, setShowListaDocentes] = useState(false);
+  const [showListaNoDocentes, setShowListaNoDocentes] = useState(false);
+  const [docentes, setDocentes] = useState<NuevoDocenteData[]>([]);
+  const [noDocentes, setNoDocentes] = useState<NuevoNoDocenteData[]>([]);
   const { user } = useAuth() as { user: Usuario | null };
   const navigate = useNavigate();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -218,6 +224,84 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
                     Otras Gestiones
                   </Button>
                 </li>
+                <li style={{ marginBottom: '30px' }}>
+                  <Button
+                    variant="link"
+                    style={{
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      backgroundColor: '#007bff',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={async () => {
+                      const db = (await import('../data/db')).default;
+                      const lista = await db.table('personalDocentes').toArray();
+                      setShowListaDocentes(true);
+                      setDocentes(lista);
+                    }}
+                  >
+                    Listar todos los Docentes
+                  </Button>
+                </li>
+                <li style={{ marginBottom: '30px' }}>
+                  <Button
+                    variant="link"
+                    style={{
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      backgroundColor: '#007bff',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={async () => {
+                      const db = (await import('../data/db')).default;
+                      const lista = await db.table('personalNoDocentes').toArray();
+                      setShowListaNoDocentes(true);
+                      setNoDocentes(lista);
+                    }}
+                  >
+                    Listar todos los no Docentes
+                  </Button>
+                </li>
+      {/* Modal listado docentes */}
+      {showListaDocentes && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.18)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: 'linear-gradient(120deg, #f0f8ff 60%, #e3eefe 100%)', borderRadius: 18, width: '700px', maxWidth: '95vw', padding: '32px 36px 18px 36px', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+              <h3 style={{ fontWeight: 700, color: '#00509e', fontSize: 22, margin: 0 }}>Listado de Docentes</h3>
+              <button onClick={() => setShowListaDocentes(false)} style={{ background: 'none', border: 'none', fontSize: 22, color: '#00509e', cursor: 'pointer', fontWeight: 700 }}>×</button>
+            </div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {docentes.map((doc, idx) => (
+                <li key={doc.dni || idx} style={{ marginBottom: 10, background: '#e3eefe', borderRadius: 12, padding: '10px 18px', fontWeight: 500, color: '#00509e', fontSize: 16 }}>
+                  {doc.nombre} {doc.apellido} - DNI: {doc.dni}
+                </li>
+              ))}
+              {docentes.length === 0 && <div style={{ color: '#00509e', fontWeight: 500, fontSize: 16, textAlign: 'center', marginTop: 24 }}>No hay docentes registrados.</div>}
+            </ul>
+          </div>
+        </div>
+      )}
+      {/* Modal listado no docentes */}
+      {showListaNoDocentes && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.18)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: 'linear-gradient(120deg, #f0f8ff 60%, #e3eefe 100%)', borderRadius: 18, width: '700px', maxWidth: '95vw', padding: '32px 36px 18px 36px', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+              <h3 style={{ fontWeight: 700, color: '#00509e', fontSize: 22, margin: 0 }}>Listado de No Docentes</h3>
+              <button onClick={() => setShowListaNoDocentes(false)} style={{ background: 'none', border: 'none', fontSize: 22, color: '#00509e', cursor: 'pointer', fontWeight: 700 }}>×</button>
+            </div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {noDocentes.map((nd, idx) => (
+                <li key={nd.dni || idx} style={{ marginBottom: 10, background: '#e3eefe', borderRadius: 12, padding: '10px 18px', fontWeight: 500, color: '#00509e', fontSize: 16 }}>
+                  {nd.nombre} {nd.apellido} - DNI: {nd.dni}
+                </li>
+              ))}
+              {noDocentes.length === 0 && <div style={{ color: '#00509e', fontWeight: 500, fontSize: 16, textAlign: 'center', marginTop: 24 }}>No hay personal no docente registrado.</div>}
+            </ul>
+          </div>
+        </div>
+      )}
               </ul>
             )}
           </div>

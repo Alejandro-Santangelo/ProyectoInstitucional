@@ -29,11 +29,11 @@ export async function agregarUsuariosCrackeados() {
 import Dexie from 'dexie';
 
 export const db = new Dexie('InstitucionalDB');
-db.version(2).stores({
-  alumnos: 'id, nombre, apellido',
-  personalDocentes: 'id, nombre, apellido, materias',
-  personalNoDocentes: 'id, nombre, apellido, cargos',
-  usuarios: '++id, nombre, username, password, route, rol, genero',
+db.version(5).stores({
+  alumnos: '++id, nombre, apellido',
+  personalDocentes: '++id, nombre, apellido, dni, materias',
+  personalNoDocentes: '++id, nombre, apellido, dni, mail, telefono, cargos',
+  usuarios: '++id, nombre, username, password, route, rol, genero, dni',
   carreras: '++id, nombre, turno, cantidadAnios', // id autoincremental
 });
 

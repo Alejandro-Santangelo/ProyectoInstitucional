@@ -1,93 +1,87 @@
-import React, { useState } from "react";
-import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
 import db from '../data/db';
+import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-export interface NuevoDocenteData {
+export interface EditarNoDocenteData {
+  id?: number;
   nombre: string;
   apellido: string;
   dni: string;
   mail: string;
   telefono: string;
-  materias: string[];
+  cargos: string[];
 }
 
-interface NuevoDocenteModalProps {
+interface EditarNoDocenteModalProps {
   show: boolean;
   onHide: () => void;
-  onDocenteAgregado?: () => void;
+  noDocente: EditarNoDocenteData;
+  onSubmit: (data: EditarNoDocenteData, usuario: string, contrasena: string) => void;
 }
 
+const EditarNoDocenteModal: React.FC<EditarNoDocenteModalProps> = ({ show, onHide, noDocente, onSubmit }) => {
+  const [emailError, setEmailError] = useState("");
+  const [nombre, setNombre] = useState(noDocente.nombre || "");
+  const [apellido, setApellido] = useState(noDocente.apellido || "");
+  const [dni, setDni] = useState(noDocente.dni || "");
+  const [mail, setMail] = useState(noDocente.mail || "");
+  const [telefono, setTelefono] = useState(noDocente.telefono || "");
+  const [cargos, setCargos] = useState<string[]>(noDocente.cargos || []);
+  const [cargoNuevo, setCargoNuevo] = useState("");
+  const [usuario, setUsuario] = useState("");
+  const [contrasena, setContrasena] = useState("");
 
-const NuevoDocenteModal: React.FC<NuevoDocenteModalProps> = ({ show, onHide, onDocenteAgregado }) => {
-  const handleAgregarMateriaNueva = () => {
-    if (materiaNueva.trim() && !materias.includes(materiaNueva.trim())) {
-      setMaterias([...materias, materiaNueva.trim()]);
-      setMateriaNueva("");
+  useEffect(() => {
+    setNombre(noDocente.nombre || "");
+    setApellido(noDocente.apellido || "");
+    setDni(noDocente.dni || "");
+    setMail(noDocente.mail || "");
+    setTelefono(noDocente.telefono || "");
+    setCargos(noDocente.cargos || []);
+  }, [noDocente]);
+
+  const handleAgregarCargoNuevo = () => {
+    if (cargoNuevo.trim() && !cargos.includes(cargoNuevo.trim())) {
+      setCargos([...cargos, cargoNuevo.trim()]);
+      setCargoNuevo("");
     }
   };
 
   const handleEnviarMail = async () => {
-    try {
-      await db.table('usuarios').add({
+    if (usuario && contrasena && dni) {
+      await db.table('usuarios').put({
         nombre: `${nombre} ${apellido}`,
         username: usuario,
         password: contrasena,
-        route: '/dashboard-profesor',
-        rol: 'Profesor',
-        genero: ''
-      });
-      alert(`Usuario: ${usuario}\nContraseña: ${contrasena}\nEnviado por Mail.\nCredenciales guardadas correctamente.`);
-    } catch (error) {
-      alert('Error al guardar credenciales: ' + error);
+        route: '/dashboard-secretaria',
+        rol: 'Secretaria',
+        genero: '',
+        dni: dni
+      }, undefined);
     }
+    // Aquí podrías mostrar un cartel visual en vez de alert si lo prefieres
+    alert(`Usuario: ${usuario}\nContraseña: ${contrasena}\nEnviado por Mail.`);
   };
-
   const handleEnviarWhatsApp = async () => {
-    try {
-      await db.table('usuarios').add({
+    if (usuario && contrasena && dni) {
+      await db.table('usuarios').put({
         nombre: `${nombre} ${apellido}`,
         username: usuario,
         password: contrasena,
-        route: '/dashboard-profesor',
-        rol: 'Profesor',
-        genero: ''
-      });
-      alert(`Usuario: ${usuario}\nContraseña: ${contrasena}\nEnviado por WhatsApp.\nCredenciales guardadas correctamente.`);
-    } catch (error) {
-      alert('Error al guardar credenciales: ' + error);
+        route: '/dashboard-secretaria',
+        rol: 'Secretaria',
+        genero: '',
+        dni: dni
+      }, undefined);
     }
+    // Aquí podrías mostrar un cartel visual en vez de alert si lo prefieres
+    alert(`Usuario: ${usuario}\nContraseña: ${contrasena}\nEnviado por WhatsApp.`);
   };
-  const [emailError, setEmailError] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [dni, setDni] = useState("");
-  const [mail, setMail] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [materias, setMaterias] = useState<string[]>([]);
-  const [materiaNueva, setMateriaNueva] = useState("");
-    const [usuario, setUsuario] = useState("");
-    const [contrasena, setContrasena] = useState("");
 
-    // Funciones para enviar por Mail y WhatsApp
-    const handleSubmit = () => {
-    (async () => {
-      try {
-        await db.table('personalDocentes').add({
-          nombre,
-          apellido,
-          dni,
-          mail,
-          telefono,
-          materias
-        });
-        alert('Docente agregado correctamente.');
-        if (onDocenteAgregado) onDocenteAgregado();
-      } catch (error) {
-        alert('Error al guardar el docente: ' + error);
-      }
-    })();
-    // El modal NO se cierra automáticamente
-    // El usuario debe hacer clic en 'Cerrar' para cerrar el modal
+  const handleSubmit = () => {
+    const data: EditarNoDocenteData = { ...noDocente, nombre, apellido, dni, mail, telefono, cargos };
+    onSubmit(data, usuario, contrasena);
+    onHide();
   };
 
   return (
@@ -109,10 +103,10 @@ const NuevoDocenteModal: React.FC<NuevoDocenteModalProps> = ({ show, onHide, onD
       }}
     >
       <Modal.Header closeButton style={{ background: 'linear-gradient(90deg, #00509e 60%, #007bff 100%)', color: '#fff', borderBottom: 'none', minHeight: 36, padding: '8px 18px' }}>
-        <Modal.Title style={{ fontWeight: 700, letterSpacing: 1, fontSize: 20, marginBottom: 0 }}>Sumar nuevo Docente</Modal.Title>
+        <Modal.Title style={{ fontWeight: 700, letterSpacing: 1, fontSize: 20, marginBottom: 0 }}>Editar No Docente</Modal.Title>
       </Modal.Header>
-  <Modal.Body style={{ background: 'linear-gradient(120deg, #f0f8ff 60%, #e3eefe 100%)', borderRadius: 12, padding: '24px 32px 12px 32px', minHeight: 220, maxHeight: 'calc(100vh - 120px)', overflowY: 'auto' }}>
-  <Form style={{ padding: 0, margin: 0 }}>
+      <Modal.Body style={{ background: 'linear-gradient(120deg, #f0f8ff 60%, #e3eefe 100%)', borderRadius: 12, padding: '24px 32px 12px 32px', minHeight: 220, maxHeight: 'calc(100vh - 120px)', overflowY: 'auto' }}>
+        <Form style={{ padding: 0, margin: 0 }}>
           <Row>
             <Col md={6} xs={12} className="mb-3">
               <Form.Group>
@@ -163,7 +157,6 @@ const NuevoDocenteModal: React.FC<NuevoDocenteModalProps> = ({ show, onHide, onD
             </Col>
           </Row>
           <Row>
-            {/* Solo input para materias personalizadas */}
             <Col xs={12} className="mb-3">
               <Form.Group>
               </Form.Group>
@@ -172,35 +165,25 @@ const NuevoDocenteModal: React.FC<NuevoDocenteModalProps> = ({ show, onHide, onD
           <Row>
             <Col xs={12} className="mb-3">
               <Form.Group>
-                <Form.Label style={{ fontWeight: 500, color: '#00509e', fontSize: 14 }}>Agregar materia personalizada</Form.Label>
+                <Form.Label style={{ fontWeight: 500, color: '#00509e', fontSize: 14 }}>Agregar cargo personalizado</Form.Label>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   <Form.Control
                     type="text"
-                    value={materiaNueva}
-                    onChange={e => setMateriaNueva(e.target.value)}
-                    placeholder="Escribe una materia nueva"
+                    value={cargoNuevo}
+                    onChange={e => setCargoNuevo(e.target.value)}
+                    placeholder="Escribe un cargo nuevo"
                     style={{ borderRadius: 16, border: '1px solid #007bff', background: '#e3eefe', fontWeight: 500, fontSize: 14 }}
                   />
-                  <Button variant="info" onClick={handleAgregarMateriaNueva} style={{ borderRadius: 16 }}>Agregar</Button>
+                  <Button variant="info" onClick={handleAgregarCargoNuevo} style={{ borderRadius: 16 }}>Agregar</Button>
                 </div>
-                <Form.Text className="text-muted">Las materias agregadas aparecerán en la lista de selección.</Form.Text>
-              {materias.length > 0 && (
-                <div style={{ marginTop: '8px' }}>
-                  <strong>Materias agregadas:</strong>
-                  <ul style={{ marginBottom: 0 }}>
-                    {materias.map((mat, idx) => (
-                      <li key={idx} style={{ fontSize: '13px', color: '#00509e' }}>{mat}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+                <Form.Text className="text-muted">Los cargos agregados aparecerán en la lista de selección.</Form.Text>
               </Form.Group>
             </Col>
           </Row>
           <Row>
             <Col xs={12} className="mb-3" style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-              <Button variant="primary" onClick={handleSubmit} style={{ borderRadius: 16 }}>Guardar Docente</Button>
-              <Button variant="secondary" onClick={onHide} style={{ borderRadius: 16 }}>Cerrar</Button>
+              <Button variant="secondary" onClick={onHide} style={{ borderRadius: 16 }}>Cancelar</Button>
+              <Button variant="primary" onClick={handleSubmit} style={{ borderRadius: 16 }}>Guardar Cambios</Button>
             </Col>
           </Row>
           {/* Sección nueva: Asignar usuario y contraseña inicial */}
@@ -222,10 +205,9 @@ const NuevoDocenteModal: React.FC<NuevoDocenteModalProps> = ({ show, onHide, onD
               </Col>
             </Row>
             <Row>
-              <Col xs={12} className="mb-2" style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-                <Button variant="outline-primary" onClick={handleEnviarMail} style={{ borderRadius: 12, minWidth: '110px', fontSize: '0.95em', padding: '4px 10px' }}>Enviar por Mail</Button>
-                <Button variant="outline-success" onClick={handleEnviarWhatsApp} style={{ borderRadius: 12, minWidth: '110px', fontSize: '0.95em', padding: '4px 10px' }}>Enviar por WhatsApp</Button>
-                <Button variant="info" style={{ borderRadius: 12, minWidth: '110px', fontSize: '0.95em', padding: '4px 10px' }} onClick={() => alert('Asignación enviada (simulado)')}>Enviar usuario y contraseña</Button>
+              <Col md={6} xs={12} className="mb-1 d-flex justify-content-end">
+                <Button variant="outline-primary" onClick={handleEnviarMail} style={{ borderRadius: 12, minWidth: '110px', fontSize: '0.95em', padding: '4px 10px', marginRight: '8px' }}>Mail</Button>
+                <Button variant="outline-success" onClick={handleEnviarWhatsApp} style={{ borderRadius: 12, minWidth: '110px', fontSize: '0.95em', padding: '4px 10px' }}>WhatsApp</Button>
               </Col>
             </Row>
           </div>
@@ -235,4 +217,4 @@ const NuevoDocenteModal: React.FC<NuevoDocenteModalProps> = ({ show, onHide, onD
   );
 };
 
-export default NuevoDocenteModal;
+export default EditarNoDocenteModal;

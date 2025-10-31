@@ -9,6 +9,18 @@ import personalDocentes from '../data/personalDocentes.json';
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AuthUserExtended>(null)
 
+  // Cargar usuarios de ejemplo si la tabla está vacía
+  React.useEffect(() => {
+    (async () => {
+      const count = await db.table('usuarios').count();
+      if (count === 0) {
+        // Importar la función para agregar usuarios crackeados
+        const { agregarUsuariosCrackeados } = await import('../data/db');
+        await agregarUsuariosCrackeados();
+      }
+    })();
+  }, []);
+
     // Eliminado código de remoteUsers, ya no se usa
   
   const login: AuthContextType["login"] = async (username: string, password: string) => {

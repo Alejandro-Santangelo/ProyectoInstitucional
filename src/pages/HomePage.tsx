@@ -47,7 +47,24 @@ function HomePage() {
                   <label htmlFor="password" className="form-label">Contraseña</label>
                   <input type="password" className="form-control" id="password" placeholder="Ingrese su contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
-                {error && <div className="text-danger mb-2">{error}</div>}
+                {error && (
+                  <div
+                    className="alert alert-danger p-1 mb-2"
+                    style={{
+                      fontSize: '0.95em',
+                      textAlign: 'center',
+                      marginTop: 0,
+                      marginBottom: '8px',
+                      marginLeft: '360px',
+                      marginRight: '0px',
+                      maxWidth: '220px',
+                      minWidth: '180px',
+                      display: 'block'
+                    }}
+                  >
+                    {error}
+                  </div>
+                )}
                 <div className="boton-ingresar-contenedor" style={{marginBottom: '40px'}}>
                   <button type="submit" className="boton-ingresar mt-1">Ingresar</button>
                 </div>

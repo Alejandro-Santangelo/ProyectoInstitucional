@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { AuthContext } from './authStore'
 import type { AuthUserExtended } from './authStore'
 import { USERS } from '../data/users'
+import personalDocentes from '../../public/data/personalDocentes.json';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AuthUserExtended>(null)
@@ -20,13 +21,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [])
 
   const login = (username: string, password: string) => {
-    const db = remoteUsers && remoteUsers.length ? remoteUsers : USERS
-    const match = db.find(u => u.username === username && u.password === password)
-    if (!match) return { ok: false, message: 'Credenciales inválidas' }
-  const genero = (match as { genero?: 'M'|'F'|'O' }).genero
-  const authUser: AuthUserExtended = { nombre: match.nombre, username: match.username, rol: match.rol, route: match.route, genero }
-    setUser(authUser)
-    return { ok: true, route: match.route }
+    const db = remoteUsers && remoteUsers.length ? remoteUsers : USERS;
+    const match = db.find(u => u.username === username && u.password === password);
+    if (!match) return { ok: false, message: 'Credenciales inválidas' };
+    const genero = (match as { genero?: 'M'|'F'|'O' }).genero;
+
+    // Si es profesor, buscar la materia en personalDocentes.json
+    let materia: string | undefined = undefined;
+    if (match.rol === 'Profesor') {
+      const docente = (personalDocentes as Array<{ nombre: string; materia: string }>).find(d => d.nombre === match.nombre);
+      if (docente) materia = docente.materia;
+    }
+
+    const authUser: AuthUserExtended & { materia?: string } = {
+      nombre: match.nombre,
+      username: match.username,
+      rol: match.rol,
+      route: match.route,
+      genero,
+      ...(materia ? { materia } : {})
+    };
+    setUser(authUser);
+    return { ok: true, route: match.route };
   }
 
   const logout = () => setUser(null)

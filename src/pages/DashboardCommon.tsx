@@ -5,6 +5,35 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import ModalEditarPerfil from '../components/ModalEditarPerfil';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
+import materiasNotas from '../../public/data/materiasNotas.json'; // Ajusta la ruta si es necesario
+
+// Tipos para materiasNotas
+type Materia = {
+  nombre: string;
+};
+
+type CarreraMateria = {
+  carrera: string;
+  anio: number;
+  materias: Materia[];
+};
+
+// Extiende el tipo de usuario para profesores
+interface UsuarioProfesor {
+  nombre: string;
+  username: string;
+  password: string;
+  rol: string;
+  route: string;
+  genero?: 'M' | 'F' | 'O';
+  foto?: string;
+  mail?: string;
+  telefono?: string;
+  dni?: string;
+  materia: string;
+}
+
+type Usuario = PerfilEditable | UsuarioProfesor;
 // Tipo compatible con los datos requeridos por ModalEditarPerfil
 type PerfilEditable = {
   nombre?: string;
@@ -40,7 +69,7 @@ const defaultData = {
 };
 
 const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usuario', defaultRol = 'Usuario' }) => {
-  const { user } = useAuth();
+  const { user } = useAuth() as { user: Usuario | null };
   const navigate = useNavigate();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -50,7 +79,7 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
 
   const handleAnioClick = (carrera: string, anio: number) => {
     navigate(`/planilla/${encodeURIComponent(carrera)}/${anio}`);
-  };
+  }
 
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
@@ -67,6 +96,27 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
       }
     }
     setShowModal(false);
+  }
+
+  // Filtrado para docentes
+  let materiasFiltradas: CarreraMateria[] = [];
+  if (user?.rol === 'Profesor' && 'materia' in user && user.materia) {
+    // Filtrar y eliminar duplicados por carrera y año
+    const rawFiltradas = (materiasNotas as CarreraMateria[])
+      .map(carrera => ({
+        carrera: carrera.carrera,
+        anio: carrera.anio,
+        materias: carrera.materias.filter((m: Materia) => m.nombre === user.materia)
+      }))
+      .filter(c => c.materias.length > 0);
+
+    // Eliminar duplicados por carrera y año
+    const unique: { [key: string]: CarreraMateria } = {};
+    rawFiltradas.forEach(c => {
+      const key = `${c.carrera}-${c.anio}`;
+      if (!unique[key]) unique[key] = c;
+    });
+    materiasFiltradas = Object.values(unique);
   }
 
   return (
@@ -244,29 +294,51 @@ const DashboardCommon: React.FC<DashboardCommonProps> = ({ defaultNombre = 'Usua
                 </Col>
               </Row>
               <Row>
-                {defaultData.carreras.map((carrera, idx) => (
-                  <Col md={4} key={idx} className="mb-4">
-                    <Card className="card" style={{ borderColor: '#003366', transform: 'scale(0.8)' }}>
-                      <Card.Header style={{ backgroundColor: '#00509e', color: '#ffffff' }}>{carrera.nombre}</Card.Header>
-                      <Card.Body style={{ height: '150px' }}>
-                        <div className="row">
-                          {[1, 2, 3, 4].map((anio, index) => (
-                            <div key={index} className="col-6 mb-2">
-                              <Button
-                                className="btn-anio"
-                                variant="outline-primary"
-                                style={{ borderColor: '#00509e', color: '#00509e', whiteSpace: 'nowrap' }}
-                                onClick={() => handleAnioClick(carrera.nombre, anio)}
-                              >
-                                {anio}° Año
-                              </Button>
+                {(user?.rol === 'Profesor' && materiasFiltradas.length > 0)
+                  ? materiasFiltradas.map((carrera, idx) => (
+                      <Col md={4} key={idx} className="mb-4">
+                        <Card className="card" style={{ borderColor: '#003366', transform: 'scale(0.8)' }}>
+                          <Card.Header style={{ backgroundColor: '#00509e', color: '#ffffff' }}>{carrera.carrera}</Card.Header>
+                          <Card.Body style={{ height: '150px' }}>
+                            <div className="row">
+                              <div className="col-12 mb-2">
+                                <Button
+                                  className="btn-anio"
+                                  variant="outline-primary"
+                                  style={{ borderColor: '#00509e', color: '#00509e', whiteSpace: 'nowrap' }}
+                                  onClick={() => handleAnioClick(carrera.carrera, carrera.anio)}
+                                >
+                                  {carrera.anio}° Año - {carrera.materias.map(m => m.nombre).join(', ')}
+                                </Button>
+                              </div>
                             </div>
-                          ))}
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))
+                  : defaultData.carreras.map((carrera, idx) => (
+                      <Col md={4} key={idx} className="mb-4">
+                        <Card className="card" style={{ borderColor: '#003366', transform: 'scale(0.8)' }}>
+                          <Card.Header style={{ backgroundColor: '#00509e', color: '#ffffff' }}>{carrera.nombre}</Card.Header>
+                          <Card.Body style={{ height: '150px' }}>
+                            <div className="row">
+                              {[1, 2, 3, 4].map((anio, index) => (
+                                <div key={index} className="col-6 mb-2">
+                                  <Button
+                                    className="btn-anio"
+                                    variant="outline-primary"
+                                    style={{ borderColor: '#00509e', color: '#00509e', whiteSpace: 'nowrap' }}
+                                    onClick={() => handleAnioClick(carrera.nombre, anio)}
+                                  >
+                                    {anio}° Año
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))}
               </Row>
             </Container>
           </div>

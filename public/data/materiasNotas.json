@@ -4,24 +4,9 @@
     "carrera": "Diseño Gráfico",
     "anio": 1,
     "materias": [
-      {
-        "nombre": "Historia del Arte",
-        "nota": 8,
-        "notaIefi": 9,
-        "notaFinal": 10
-      },
-      {
-        "nombre": "Diseño I",
-        "nota": 7,
-        "notaIefi": 8,
-        "notaFinal": null
-      },
-      {
-        "nombre": "Matemática",
-        "nota": 6,
-        "notaIefi": 7,
-        "notaFinal": null
-      }
+      { "nombre": "Historia del Arte", "nota": 8, "notaIefi": 9, "notaFinal": 10 },
+      { "nombre": "Diseño I", "nota": 7, "notaIefi": 8, "notaFinal": null },
+      { "nombre": "Matemática", "nota": 6, "notaIefi": 7, "notaFinal": null }
     ]
   },
   {
@@ -29,24 +14,27 @@
     "carrera": "Diseño Gráfico",
     "anio": 1,
     "materias": [
-      {
-        "nombre": "Historia del Arte",
-        "nota": 7,
-        "notaIefi": 8,
-        "notaFinal": 9
-      },
-      {
-        "nombre": "Diseño I",
-        "nota": 6,
-        "notaIefi": 7,
-        "notaFinal": null
-      },
-      {
-        "nombre": "Matemática",
-        "nota": 8,
-        "notaIefi": 9,
-        "notaFinal": 10
-      }
+      { "nombre": "Historia del Arte", "nota": 7, "notaIefi": 8, "notaFinal": 9 },
+      { "nombre": "Diseño I", "nota": 6, "notaIefi": 7, "notaFinal": null },
+      { "nombre": "Matemática", "nota": 8, "notaIefi": 9, "notaFinal": 10 }
+    ]
+  },
+  {
+    "idAlumno": 3,
+    "carrera": "Programación Full Stack",
+    "anio": 1,
+    "materias": [
+      { "nombre": "Matemática", "nota": 9, "notaIefi": 8, "notaFinal": null },
+      { "nombre": "Programación I", "nota": 7, "notaIefi": 8, "notaFinal": null }
+    ]
+  },
+  {
+    "idAlumno": 4,
+    "carrera": "Programación Full Stack",
+    "anio": 2,
+    "materias": [
+      { "nombre": "Matemática", "nota": 8, "notaIefi": 9, "notaFinal": 10 },
+      { "nombre": "Programación II", "nota": 9, "notaIefi": 8, "notaFinal": null }
     ]
   }
 ]

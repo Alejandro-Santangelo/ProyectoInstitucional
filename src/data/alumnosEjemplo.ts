@@ -2,7 +2,8 @@ import type { Alumno } from "../pages/PlanillaAlumnos";
 
 export const alumnosEjemplo: Alumno[] = [
   {
-    idAlumno: 1,
+  idAlumno: 1,
+  cuil: "",
     nombre: "Ana",
     apellido: "García",
     matricula: "2023-001",
@@ -16,7 +17,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Sin observaciones"
   },
   {
-    idAlumno: 2,
+  idAlumno: 2,
+  cuil: "",
     nombre: "Luis",
     apellido: "Pérez",
     matricula: "2023-002",
@@ -30,7 +32,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Becado"
   },
   {
-    idAlumno: 3,
+  idAlumno: 3,
+  cuil: "",
     nombre: "María",
     apellido: "López",
     matricula: "2023-003",
@@ -44,7 +47,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Sin observaciones"
   },
   {
-    idAlumno: 4,
+  idAlumno: 4,
+  cuil: "",
     nombre: "Jorge",
     apellido: "Martínez",
     matricula: "2023-004",
@@ -58,7 +62,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Sin observaciones"
   },
   {
-    idAlumno: 5,
+  idAlumno: 5,
+  cuil: "",
     nombre: "Sofía",
     apellido: "Fernández",
     matricula: "2023-005",
@@ -72,7 +77,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Sin observaciones"
   },
   {
-    idAlumno: 6,
+  idAlumno: 6,
+  cuil: "",
     nombre: "Carlos",
     apellido: "Gómez",
     matricula: "2023-006",
@@ -86,7 +92,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Sin observaciones"
   },
   {
-    idAlumno: 7,
+  idAlumno: 7,
+  cuil: "",
     nombre: "Valentina",
     apellido: "Ruiz",
     matricula: "2023-007",
@@ -100,7 +107,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Sin observaciones"
   },
   {
-    idAlumno: 8,
+  idAlumno: 8,
+  cuil: "",
     nombre: "Martín",
     apellido: "Castro",
     matricula: "2023-008",
@@ -114,7 +122,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Sin observaciones"
   },
   {
-    idAlumno: 9,
+  idAlumno: 9,
+  cuil: "",
     nombre: "Lucía",
     apellido: "Molina",
     matricula: "2023-009",
@@ -128,7 +137,8 @@ export const alumnosEjemplo: Alumno[] = [
     observaciones: "Sin observaciones"
   },
   {
-    idAlumno: 10,
+  idAlumno: 10,
+  cuil: "",
     nombre: "Federico",
     apellido: "Sánchez",
     matricula: "2023-010",
